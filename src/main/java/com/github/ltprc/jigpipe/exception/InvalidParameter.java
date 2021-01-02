@@ -1,4 +1,4 @@
-package org.lituo.jigpipe.exception;
+package com.github.ltprc.jigpipe.exception;
 
 /**
  * A invalid parameter is provided.

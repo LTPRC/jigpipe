@@ -1,11 +1,10 @@
-package org.lituo.jigpipe.service;
+package com.github.ltprc.jigpipe.service;
 
 import java.io.IOException;
 
-import org.lituo.jigpipe.component.BigpipePacket;
-
-import org.lituo.jigpipe.component.TopicAddress;
-import org.lituo.jigpipe.component.BigpipeCommand;
+import com.github.ltprc.jigpipe.component.BigpipeCommand;
+import com.github.ltprc.jigpipe.component.BigpipePacket;
+import com.github.ltprc.jigpipe.component.TopicAddress;
 
 /**
  * Client class, used for managing connection and transmission.

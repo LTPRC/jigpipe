@@ -1,4 +1,4 @@
-package org.lituo.jigpipe.tool;
+package com.github.ltprc.jigpipe.tool;
 
 import org.apache.log4j.Logger;
 

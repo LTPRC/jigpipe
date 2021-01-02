@@ -1,4 +1,4 @@
-package org.lituo.jigpipe.exception;
+package com.github.ltprc.jigpipe.exception;
 
 /**
  * Stripe offset is out of range.

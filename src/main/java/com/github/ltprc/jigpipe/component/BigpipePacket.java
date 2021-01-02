@@ -1,6 +1,6 @@
-package org.lituo.jigpipe.component;
+package com.github.ltprc.jigpipe.component;
 
-import org.lituo.jigpipe.component.BigpipeCommand;
+import com.github.ltprc.jigpipe.component.BigpipeCommand;
 
 public class BigpipePacket {
     public BigpipeCommand command;

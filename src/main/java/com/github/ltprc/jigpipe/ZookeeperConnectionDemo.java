@@ -1,6 +1,6 @@
-package org.lituo.jigpipe;
+package com.github.ltprc.jigpipe;
 
-import org.lituo.jigpipe.meta.ZooKeeperUtil;
+import com.github.ltprc.jigpipe.meta.ZooKeeperUtil;
 
 public class ZookeeperConnectionDemo {
     public static final String CLUSTERNAME = "Bigpipe-cluster-Huawei";
@@ -26,7 +26,9 @@ public class ZookeeperConnectionDemo {
         }
     }
 
-    public static void connectZooKeeper(String clusterName, String zooKeeperString, int sessionTimeoutMs, 
+    public static void connectZooKeeper(String clusterName, 
+            String zooKeeperString, 
+            int sessionTimeoutMs, 
             boolean isWaitConnected) {
         try {
             ZooKeeperUtil.init(clusterName, zooKeeperString, sessionTimeoutMs);

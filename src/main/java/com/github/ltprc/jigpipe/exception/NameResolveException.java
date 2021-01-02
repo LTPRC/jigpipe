@@ -1,4 +1,4 @@
-package org.lituo.jigpipe.exception;
+package com.github.ltprc.jigpipe.exception;
 
 /**
  * Unable to obtain information (including broker groups, stripes, etc.) while

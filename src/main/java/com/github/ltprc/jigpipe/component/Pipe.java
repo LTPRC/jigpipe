@@ -1,4 +1,4 @@
-package org.lituo.jigpipe.component;
+package com.github.ltprc.jigpipe.component;
 
 public class Pipe {
     private int pipeletNum;

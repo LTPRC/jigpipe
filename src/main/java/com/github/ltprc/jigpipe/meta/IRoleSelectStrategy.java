@@ -1,4 +1,4 @@
-package org.lituo.jigpipe.meta;
+package com.github.ltprc.jigpipe.meta;
 
 /**
  * Broker role selection strategy for Bigpipe consuming.

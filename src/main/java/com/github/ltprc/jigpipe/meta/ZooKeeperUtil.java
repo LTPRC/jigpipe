@@ -1,4 +1,4 @@
-package org.lituo.jigpipe.meta;
+package com.github.ltprc.jigpipe.meta;
 
 import java.io.IOException;
 import java.util.Map;
@@ -12,7 +12,7 @@ import org.apache.zookeeper.Watcher.Event.KeeperState;
 import org.apache.zookeeper.ZooKeeper;
 import org.apache.zookeeper.data.Stat;
 
-import org.lituo.jigpipe.tool.BigpipeLogger;
+import com.github.ltprc.jigpipe.tool.BigpipeLogger;
 
 /**
  * 封装了watcher和session失效自动重连的zookeeper的类，为了尽量减少对zookeeper服务的压力，使用单例模式
@@ -64,7 +64,7 @@ public class ZooKeeperUtil implements Watcher {
      * @return true if the named instance exists, otherwise false.
      */
     public static boolean hasInstance(String clusterName) {
-        return null == instanceMap.get(clusterName);
+        return null != instanceMap.get(clusterName);
     }
 
     /**

@@ -1,19 +1,19 @@
-package org.lituo.jigpipe.meta;
+package com.github.ltprc.jigpipe.meta;
 
 import java.net.InetSocketAddress;
 
 import org.apache.zookeeper.KeeperException;
 import org.apache.zookeeper.KeeperException.Code;
-import com.google.gson.Gson;
 
-import org.lituo.jigpipe.component.Broker;
-import org.lituo.jigpipe.component.BrokerGroup;
-import org.lituo.jigpipe.component.Pipelet;
-import org.lituo.jigpipe.component.Stripe;
-import org.lituo.jigpipe.component.TopicAddress;
-import org.lituo.jigpipe.exception.InvalidParameter;
-import org.lituo.jigpipe.exception.NameResolveException;
-import org.lituo.jigpipe.exception.StripeOffsetException;
+import com.github.ltprc.jigpipe.component.Broker;
+import com.github.ltprc.jigpipe.component.BrokerGroup;
+import com.github.ltprc.jigpipe.component.Pipelet;
+import com.github.ltprc.jigpipe.component.Stripe;
+import com.github.ltprc.jigpipe.component.TopicAddress;
+import com.github.ltprc.jigpipe.exception.InvalidParameter;
+import com.github.ltprc.jigpipe.exception.NameResolveException;
+import com.github.ltprc.jigpipe.exception.StripeOffsetException;
+import com.google.gson.Gson;
 
 public class NameService {
     private IRoleSelectStrategy roleStrategy = new DefaultRoleStrategy();

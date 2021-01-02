@@ -1,4 +1,4 @@
-package org.lituo.jigpipe.service;
+package com.github.ltprc.jigpipe.service;
 
 import java.lang.management.ManagementFactory;
 import java.net.InetAddress;
@@ -6,8 +6,9 @@ import java.net.UnknownHostException;
 import java.util.concurrent.atomic.AtomicLong;
 
 import org.apache.log4j.Logger;
-import org.lituo.jigpipe.meta.NameService;
-import org.lituo.jigpipe.tool.BigpipeLogger;
+
+import com.github.ltprc.jigpipe.meta.NameService;
+import com.github.ltprc.jigpipe.tool.BigpipeLogger;
 
 /**
  * <p>
