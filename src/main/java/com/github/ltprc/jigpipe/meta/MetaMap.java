@@ -9,14 +9,14 @@ import java.util.Map;
  *
  */
 public enum MetaMap {
-    METAMAP;
+    INSTANCE;
     
     /**
      * ZooKeeper散列表，用于存储属于不同集群的ZK实例
      */
     private final static Map<String, ZooKeeperWatcher> instanceMap = new HashMap<>();
     
-    public static Map<String, ZooKeeperWatcher> getInstance() {
+    public Map<String, ZooKeeperWatcher> getInstance() {
         return instanceMap;
     }
 }

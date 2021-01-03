@@ -58,7 +58,7 @@ public class ZooKeeperWatcher implements Watcher {
                 throw new MetaException("EX01");
             } else {
                 zooKeeper = new ZooKeeper(zkAddress, zkSessionTimeout, this);
-                MetaMap.getInstance().put(clusterName, this);
+                MetaMap.INSTANCE.getInstance().put(clusterName, this);
             }
             System.out.println("已发起面向集群" + clusterName + "连接的建立");
         } catch (IOException e) {
@@ -128,7 +128,7 @@ public class ZooKeeperWatcher implements Watcher {
      * @return true if the named instance exists, otherwise false.
      */
     public boolean hasInstance(String clusterName) {
-        return MetaMap.getInstance().containsKey(clusterName);
+        return MetaMap.INSTANCE.getInstance().containsKey(clusterName);
     }
 
     /**
@@ -137,7 +137,7 @@ public class ZooKeeperWatcher implements Watcher {
      * @return ZK instance
      */
     public ZooKeeperWatcher getInstance(String clusterName) {
-        return MetaMap.getInstance().get(clusterName);
+        return MetaMap.INSTANCE.getInstance().get(clusterName);
     }
 
     public void waitConnected() throws InterruptedException {
@@ -165,7 +165,7 @@ public class ZooKeeperWatcher implements Watcher {
             if(null != zooKeeper){
                 zooKeeper.close();
             }
-            MetaMap.getInstance().remove(clusterName);
+            MetaMap.INSTANCE.getInstance().remove(clusterName);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
