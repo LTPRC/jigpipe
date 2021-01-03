@@ -115,7 +115,7 @@ public class NameService {
     private Stripe findStripe(String pipelet, long position)
             throws NameResolveException, KeeperException, InterruptedException {
         String pipeletPath = "/" + pipelet; // Mock pipelet path.
-        String pipeletinfo = ZooKeeperUtil.getInstance(clusterName).getMeta(pipeletPath);
+        String pipeletinfo = MetaMap.getInstance().get(clusterName).getMeta(pipeletPath);
 
         Gson gson = new Gson();
         Pipelet p = gson.fromJson(pipeletinfo, Pipelet.class);
@@ -147,7 +147,7 @@ public class NameService {
     private BrokerGroup getGroup(Stripe s) throws KeeperException, InterruptedException {
         Gson gson = new Gson();
         String groupPath = String.format("/%s", s.getServingGroup()); // Mock group path.
-        String groupInfo = ZooKeeperUtil.getInstance(clusterName).getMeta(groupPath);
+        String groupInfo = MetaMap.getInstance().get(clusterName).getMeta(groupPath);
         return gson.fromJson(groupInfo, BrokerGroup.class);
     }
 }
