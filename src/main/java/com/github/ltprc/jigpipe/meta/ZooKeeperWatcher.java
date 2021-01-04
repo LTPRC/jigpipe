@@ -248,15 +248,16 @@ public class ZooKeeperWatcher implements Watcher {
     public static void main(String[] args) throws InterruptedException, KeeperException {
         logger.info("test log4j");
         ZooKeeperWatcher mckz=new ZooKeeperWatcher(CLUSTER_NAME, ZK_ADDRESS, ZK_SESSION_TIMEOUT);
-        //创建节点
-//        mckz.createNode("/mckz","MCKZ");
-        //修改
-//        mckz.setNode("/mckz","wahahaha");
-        //删除
-//        mckz.deleteNode("/mckz");
-        //关闭
-//        mckz.closeConnection();
         mckz.waitConnected();
-        System.out.println(mckz.getMeta("/bigpipe"));
+        //创建节点
+        mckz.createNode("/mckz","MCKZ");
+        System.out.println(mckz.get("/mckz"));
+        //修改
+        mckz.setNode("/mckz","wahahaha");
+        System.out.println(mckz.get("/mckz"));
+        //删除
+        mckz.deleteNode("/mckz");
+        //关闭
+        mckz.release();
     }
 }
