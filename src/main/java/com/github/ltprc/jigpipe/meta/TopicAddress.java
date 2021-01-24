@@ -1,4 +1,4 @@
-package com.github.ltprc.jigpipe.bean;
+package com.github.ltprc.jigpipe.meta;
 
 import java.net.InetSocketAddress;
 

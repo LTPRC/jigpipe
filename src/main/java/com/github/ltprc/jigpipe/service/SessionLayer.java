@@ -8,7 +8,6 @@ import java.util.concurrent.atomic.AtomicLong;
 import org.apache.log4j.Logger;
 
 import com.github.ltprc.jigpipe.meta.NameService;
-import com.github.ltprc.jigpipe.service.client.IClient;
 import com.github.ltprc.jigpipe.tool.BigpipeLogger;
 
 /**

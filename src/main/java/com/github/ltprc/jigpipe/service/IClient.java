@@ -1,10 +1,9 @@
-package com.github.ltprc.jigpipe.service.client;
+package com.github.ltprc.jigpipe.service;
 
 import java.io.IOException;
 
-import com.github.ltprc.jigpipe.bean.TopicAddress;
-import com.github.ltprc.jigpipe.service.Packet;
-import com.github.ltprc.jigpipe.service.command.Command;
+import com.github.ltprc.jigpipe.command.Command;
+import com.github.ltprc.jigpipe.meta.TopicAddress;
 import com.google.gson.Gson;
 
 /**

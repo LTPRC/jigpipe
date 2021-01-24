@@ -1,14 +1,11 @@
-package com.github.ltprc.jigpipe.service.writer;
+package com.github.ltprc.jigpipe.service;
 
 import java.io.IOException;
 
+import com.github.ltprc.jigpipe.command.Command;
+import com.github.ltprc.jigpipe.command.CommandType;
+import com.github.ltprc.jigpipe.command.ConnectedCommand;
 import com.github.ltprc.jigpipe.exception.UnexpectedProtocol;
-import com.github.ltprc.jigpipe.service.ByteBlockList;
-import com.github.ltprc.jigpipe.service.Packet;
-import com.github.ltprc.jigpipe.service.client.BlockedClient;
-import com.github.ltprc.jigpipe.service.command.Command;
-import com.github.ltprc.jigpipe.service.command.CommandType;
-import com.github.ltprc.jigpipe.service.command.ConnectedCommand;
 
 /**
  * <p>
@@ -21,12 +18,12 @@ import com.github.ltprc.jigpipe.service.command.ConnectedCommand;
  * 使用底层的方法实现异步发送的方式能大幅提高吞吐量但是需要自己管理session_msg_id
  * </p>
  */
-public class BlockedWriter extends Writer {
+public class BIOWriter extends Writer {
 
     /** The session sequence id. */
     private long sessionSeq;
 
-    public BlockedWriter(String cluster) {
+    public BIOWriter(String cluster) {
         super(cluster);
     }
 

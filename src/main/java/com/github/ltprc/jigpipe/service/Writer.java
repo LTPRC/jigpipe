@@ -1,21 +1,18 @@
-package com.github.ltprc.jigpipe.service.writer;
+package com.github.ltprc.jigpipe.service;
 
 import java.io.IOException;
 import java.util.List;
 
-import com.github.ltprc.jigpipe.bean.TopicAddress;
+import com.github.ltprc.jigpipe.command.AckCommand;
+import com.github.ltprc.jigpipe.command.Command;
+import com.github.ltprc.jigpipe.command.CommandType;
+import com.github.ltprc.jigpipe.command.ConnectCommand;
+import com.github.ltprc.jigpipe.command.MessageCommand;
 import com.github.ltprc.jigpipe.constant.JigpipeConstant;
 import com.github.ltprc.jigpipe.exception.MalformedPackageException;
 import com.github.ltprc.jigpipe.exception.NameResolveException;
 import com.github.ltprc.jigpipe.exception.UnexpectedProtocol;
-import com.github.ltprc.jigpipe.service.ByteBlockList;
-import com.github.ltprc.jigpipe.service.Packet;
-import com.github.ltprc.jigpipe.service.SessionLayer;
-import com.github.ltprc.jigpipe.service.command.AckCommand;
-import com.github.ltprc.jigpipe.service.command.Command;
-import com.github.ltprc.jigpipe.service.command.CommandType;
-import com.github.ltprc.jigpipe.service.command.ConnectCommand;
-import com.github.ltprc.jigpipe.service.command.MessageCommand;
+import com.github.ltprc.jigpipe.meta.TopicAddress;
 
 import io.netty.util.internal.StringUtil;
 

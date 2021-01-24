@@ -1,6 +1,6 @@
 package com.github.ltprc.jigpipe.exception;
 
-import com.github.ltprc.jigpipe.bean.Stripe;
+import com.github.ltprc.jigpipe.meta.Stripe;
 
 /**
  * 在当前stripe读完需要切换读下一个，需要应用层重连时抛出。

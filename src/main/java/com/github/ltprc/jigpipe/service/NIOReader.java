@@ -1,17 +1,14 @@
-package com.github.ltprc.jigpipe.service.reader;
+package com.github.ltprc.jigpipe.service;
 
 import java.io.IOException;
 
-import com.github.ltprc.jigpipe.bean.StorePackage;
+import com.github.ltprc.jigpipe.command.Command;
+import com.github.ltprc.jigpipe.command.MessageCommand;
 import com.github.ltprc.jigpipe.exception.NameResolveException;
 import com.github.ltprc.jigpipe.exception.ProtocolDisorderError;
 import com.github.ltprc.jigpipe.exception.UnexpectedProtocol;
-import com.github.ltprc.jigpipe.service.Packet;
-import com.github.ltprc.jigpipe.service.client.NonblockClient;
-import com.github.ltprc.jigpipe.service.command.Command;
-import com.github.ltprc.jigpipe.service.command.MessageCommand;
 
-public class NonblockReader extends Reader {
+public class NIOReader extends Reader {
     public static final int START = 1;
     public static final int CONNECTED = 2;
     public static final int RECEIVING = 4;
@@ -19,7 +16,7 @@ public class NonblockReader extends Reader {
     private Packet lastPacket;
     private int protocolState = START;
 
-    public NonblockReader(String cluster) {
+    public NIOReader(String cluster) {
         super(cluster);
     }
 

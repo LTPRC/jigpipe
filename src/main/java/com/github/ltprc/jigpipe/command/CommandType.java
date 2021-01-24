@@ -1,4 +1,4 @@
-package com.github.ltprc.jigpipe.service.command;
+package com.github.ltprc.jigpipe.command;
 
 import com.google.protobuf.Descriptors.EnumDescriptor;
 import com.google.protobuf.Descriptors.EnumValueDescriptor;

@@ -1,4 +1,4 @@
-package com.github.ltprc.jigpipe.service.command;
+package com.github.ltprc.jigpipe.command;
 
 public class AckCommand extends Command {
 

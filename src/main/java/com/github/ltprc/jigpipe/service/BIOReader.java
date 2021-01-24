@@ -1,20 +1,17 @@
-package com.github.ltprc.jigpipe.service.reader;
+package com.github.ltprc.jigpipe.service;
 
 import java.io.IOException;
 
-import com.github.ltprc.jigpipe.bean.StorePackage;
+import com.github.ltprc.jigpipe.command.Command;
+import com.github.ltprc.jigpipe.command.CommandType;
+import com.github.ltprc.jigpipe.command.MessageCommand;
+import com.github.ltprc.jigpipe.command.SubscribeCommand;
 import com.github.ltprc.jigpipe.exception.StripeEndException;
 import com.github.ltprc.jigpipe.exception.UnexpectedProtocol;
-import com.github.ltprc.jigpipe.service.Packet;
-import com.github.ltprc.jigpipe.service.client.BlockedClient;
-import com.github.ltprc.jigpipe.service.command.Command;
-import com.github.ltprc.jigpipe.service.command.CommandType;
-import com.github.ltprc.jigpipe.service.command.MessageCommand;
-import com.github.ltprc.jigpipe.service.command.SubscribeCommand;
 
-public class BlockedReader extends Reader {
+public class BIOReader extends Reader {
     
-    public BlockedReader(String cluster) {
+    public BIOReader(String cluster) {
         super(cluster);
         client = new BlockedClient();
     }

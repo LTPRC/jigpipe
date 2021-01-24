@@ -5,11 +5,6 @@ import java.net.InetSocketAddress;
 import org.apache.zookeeper.KeeperException;
 import org.apache.zookeeper.KeeperException.Code;
 
-import com.github.ltprc.jigpipe.bean.Broker;
-import com.github.ltprc.jigpipe.bean.BrokerGroup;
-import com.github.ltprc.jigpipe.bean.Pipelet;
-import com.github.ltprc.jigpipe.bean.Stripe;
-import com.github.ltprc.jigpipe.bean.TopicAddress;
 import com.github.ltprc.jigpipe.constant.JigpipeConstant;
 import com.github.ltprc.jigpipe.exception.InvalidParameter;
 import com.github.ltprc.jigpipe.exception.NameResolveException;

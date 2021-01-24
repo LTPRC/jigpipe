@@ -1,4 +1,4 @@
-package com.github.ltprc.jigpipe.bean;
+package com.github.ltprc.jigpipe.meta;
 
 public class Stripe {
     private int id;

@@ -1,6 +1,6 @@
 package com.github.ltprc.jigpipe.service;
 
-import com.github.ltprc.jigpipe.service.command.Command;
+import com.github.ltprc.jigpipe.command.Command;
 
 public class Packet {
     

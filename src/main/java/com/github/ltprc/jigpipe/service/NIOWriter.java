@@ -1,22 +1,18 @@
-package com.github.ltprc.jigpipe.service.writer;
+package com.github.ltprc.jigpipe.service;
 
 import java.io.IOException;
 
+import com.github.ltprc.jigpipe.command.AckCommand;
+import com.github.ltprc.jigpipe.command.Command;
+import com.github.ltprc.jigpipe.command.ConnectedCommand;
 import com.github.ltprc.jigpipe.exception.UnexpectedProtocol;
-import com.github.ltprc.jigpipe.service.ByteBlockList;
-import com.github.ltprc.jigpipe.service.Packet;
-import com.github.ltprc.jigpipe.service.client.NonblockClient;
-import com.github.ltprc.jigpipe.service.command.AckCommand;
-import com.github.ltprc.jigpipe.service.command.Command;
-import com.github.ltprc.jigpipe.service.command.CommandType;
-import com.github.ltprc.jigpipe.service.command.ConnectedCommand;
 
-public class NonblockWriter extends Writer {
+public class NIOWriter extends Writer {
 
     private long sendingSeq;
     private long ackedSeq;
 
-    public NonblockWriter(String cluster) {
+    public NIOWriter(String cluster) {
         super(cluster);
     }
 

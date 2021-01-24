@@ -1,4 +1,4 @@
-package com.github.ltprc.jigpipe.service.client;
+package com.github.ltprc.jigpipe.service;
 
 import java.io.IOException;
 import java.net.SocketException;
@@ -7,9 +7,8 @@ import java.nio.channels.SocketChannel;
 import java.util.LinkedList;
 import java.util.Queue;
 
-import com.github.ltprc.jigpipe.bean.TopicAddress;
-import com.github.ltprc.jigpipe.service.Packet;
-import com.github.ltprc.jigpipe.service.command.Command;
+import com.github.ltprc.jigpipe.command.Command;
+import com.github.ltprc.jigpipe.meta.TopicAddress;
 import com.google.gson.Gson;
 
 public class NonblockClient implements IClient {

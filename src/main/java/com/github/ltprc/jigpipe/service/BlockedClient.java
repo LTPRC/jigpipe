@@ -1,4 +1,4 @@
-package com.github.ltprc.jigpipe.service.client;
+package com.github.ltprc.jigpipe.service;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -6,9 +6,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.Socket;
 
-import com.github.ltprc.jigpipe.bean.TopicAddress;
-import com.github.ltprc.jigpipe.service.Packet;
-import com.github.ltprc.jigpipe.service.command.Command;
+import com.github.ltprc.jigpipe.command.Command;
+import com.github.ltprc.jigpipe.meta.TopicAddress;
 import com.google.gson.Gson;
 
 public class BlockedClient implements IClient {
