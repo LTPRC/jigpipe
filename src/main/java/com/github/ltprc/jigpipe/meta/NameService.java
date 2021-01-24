@@ -5,11 +5,12 @@ import java.net.InetSocketAddress;
 import org.apache.zookeeper.KeeperException;
 import org.apache.zookeeper.KeeperException.Code;
 
-import com.github.ltprc.jigpipe.component.Broker;
-import com.github.ltprc.jigpipe.component.BrokerGroup;
-import com.github.ltprc.jigpipe.component.Pipelet;
-import com.github.ltprc.jigpipe.component.Stripe;
-import com.github.ltprc.jigpipe.component.TopicAddress;
+import com.github.ltprc.jigpipe.bean.Broker;
+import com.github.ltprc.jigpipe.bean.BrokerGroup;
+import com.github.ltprc.jigpipe.bean.Pipelet;
+import com.github.ltprc.jigpipe.bean.Stripe;
+import com.github.ltprc.jigpipe.bean.TopicAddress;
+import com.github.ltprc.jigpipe.constant.JigpipeConstant;
 import com.github.ltprc.jigpipe.exception.InvalidParameter;
 import com.github.ltprc.jigpipe.exception.NameResolveException;
 import com.github.ltprc.jigpipe.exception.StripeOffsetException;
@@ -19,8 +20,8 @@ public class NameService {
     private IRoleSelectStrategy roleStrategy = new DefaultRoleStrategy();
     private String clusterName;
 
-    public NameService(String topDomainName) {
-        clusterName = topDomainName;
+    public NameService(String clusterName) {
+        this.clusterName = clusterName;
     }
 
     public String getClusterName() {
@@ -40,6 +41,7 @@ public class NameService {
      * @throws NameResolveException
      */
     public TopicAddress lookup(String pipelet, long position, int role) throws NameResolveException {
+        //Search stripe
         Stripe stripe;
         try {
             stripe = findStripe(pipelet, position);
@@ -59,7 +61,8 @@ public class NameService {
             ne.initCause(e);
             throw ne;
         }
-
+        
+        //Search broker group
         BrokerGroup group;
         try {
             group = getGroup(stripe);
@@ -83,9 +86,9 @@ public class NameService {
 
         TopicAddress addr = new TopicAddress();
         addr.setStripe(stripe);
-        for (Broker b : group.getBrokers()) {
-            if (b.getRole() == role) {
-                addr.setAddress(new InetSocketAddress(b.getIp(), b.getPort()));
+        for (Broker broker : group.getBrokers()) {
+            if (broker.getRole() == role) {
+                addr.setAddress(new InetSocketAddress(broker.getIp(), broker.getPort()));
                 return addr;
             }
         }
@@ -106,47 +109,48 @@ public class NameService {
      * @throws NameResolveException
      */
     public TopicAddress lookupPub(String pipelet) throws NameResolveException {
-        return lookup(pipelet, Long.MAX_VALUE, 1);
+        return lookup(pipelet, Long.MAX_VALUE, JigpipeConstant.BROKER_MASTER);
     }
 
     /**
      * Searching the position of a message on its specific pipelet.
      */
-    private Stripe findStripe(String pipelet, long position)
+    private Stripe findStripe(String pipeletName, long position)
             throws NameResolveException, KeeperException, InterruptedException {
-        String pipeletPath = "/" + pipelet; // Mock pipelet path.
+        String pipeletPath = "/" + clusterName + "/" + pipeletName;
         String pipeletinfo = MetaMap.INSTANCE.getInstance().get(clusterName).getMeta(pipeletPath);
 
         Gson gson = new Gson();
-        Pipelet p = gson.fromJson(pipeletinfo, Pipelet.class);
+        Pipelet pipelet = gson.fromJson(pipeletinfo, Pipelet.class);
 
         long minBeginPos = Long.MAX_VALUE;
         Stripe oldestStripe = new Stripe();
         oldestStripe.setBeginPos(0L);
         //Search correct stripe
-        for (Stripe s : p.getStripes()) {
-            if (s.getBeginPos() > 0 && s.getBeginPos() <= s.getEndPos()) {
-                if (s.getBeginPos() < minBeginPos) {
-                    minBeginPos = s.getBeginPos();
-                    oldestStripe = s;
-                }
-                if (s.getBeginPos() <= position && s.getBeginPos() >= position) {
-                    return s;
-                }
+        for (Stripe stripe : pipelet.getStripes()) {
+            if (stripe.getBeginPos() > stripe.getEndPos()) {
+                //Invalid stripe, pass.
+            }
+            if (stripe.getBeginPos() < minBeginPos) {
+                minBeginPos = stripe.getBeginPos();
+                oldestStripe = stripe;
+            }
+            if (stripe.getBeginPos() <= position && stripe.getEndPos() >= position) {
+                return stripe;
             }
         }
         if (position == 0) {
             return oldestStripe;
         }
-        throw new StripeOffsetException(pipelet, position, oldestStripe.getBeginPos());
+        throw new StripeOffsetException(pipeletName, position, oldestStripe.getBeginPos());
     }
 
     /**
      * Searching the broker group info of a specific stripe.
      */
-    private BrokerGroup getGroup(Stripe s) throws KeeperException, InterruptedException {
+    private BrokerGroup getGroup(Stripe stripe) throws KeeperException, InterruptedException {
         Gson gson = new Gson();
-        String groupPath = String.format("/%s", s.getServingGroup()); // Mock group path.
+        String groupPath = String.format("/%s", stripe.getServingGroup());
         String groupInfo = MetaMap.INSTANCE.getInstance().get(clusterName).getMeta(groupPath);
         return gson.fromJson(groupInfo, BrokerGroup.class);
     }

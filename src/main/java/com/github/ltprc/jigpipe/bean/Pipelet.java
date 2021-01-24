@@ -1,4 +1,4 @@
-package com.github.ltprc.jigpipe.component;
+package com.github.ltprc.jigpipe.bean;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.github.ltprc.jigpipe.component;
+package com.github.ltprc.jigpipe.bean;
 
 /**
  * Broker is the server of the Baidu Bigpipe message queue system.

@@ -1,9 +1,13 @@
 package com.github.ltprc.jigpipe.constant;
 
 public class JigpipeConstant {
+    
+    public static final int BROKER_MASTER = 1;
+    
+    public static final int BROKER_SLAVE = 2;
 
     /**
-     * Jigpipe cluster name
+     * cluster name
      */
     public static final String CLUSTER_NAME = "bigpipe_test_cluster";
     /**

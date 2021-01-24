@@ -168,7 +168,8 @@ public class ZooKeeperWatcher implements Watcher {
      * @throws InterruptedException
      */
     public String getMeta(String path) throws KeeperException, InterruptedException {
-        return new String(get(path), 8, get(path).length - 8);
+//        return new String(get(path), 8, get(path).length - 8);
+        return new String(get(path));
     }
 
     /**

@@ -2,6 +2,8 @@ package com.github.ltprc.jigpipe.meta;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
+import com.github.ltprc.jigpipe.constant.JigpipeConstant;
+
 public class DefaultRoleStrategy implements IRoleSelectStrategy {
 
     /**
@@ -16,9 +18,9 @@ public class DefaultRoleStrategy implements IRoleSelectStrategy {
     public int getCurrentRole() {
         int rst = index.getAndAdd(1) % (BROKER_MASTER_WEIGHT + BROKER_SLAVE_WEIGHT);
         if (rst < BROKER_MASTER_WEIGHT) {
-            return BROKER_MASTER;
+            return JigpipeConstant.BROKER_MASTER;
         } else {
-            return BROKER_SLAVE;
+            return JigpipeConstant.BROKER_SLAVE;
         }
     }
 }
