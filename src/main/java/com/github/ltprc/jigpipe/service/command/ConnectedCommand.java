@@ -6,13 +6,13 @@ public class ConnectedCommand extends Command {
         commandType = CommandType.BMQ_CONNECTED;
     }
 
-    private long SessionMessageId;
+    private long sessionMessageId;
 
     public long getSessionMessageId() {
-        return SessionMessageId;
+        return sessionMessageId;
     }
 
     public void setSessionMessageId(long sessionMessageId) {
-        SessionMessageId = sessionMessageId;
+        this.sessionMessageId = sessionMessageId;
     }
 }
