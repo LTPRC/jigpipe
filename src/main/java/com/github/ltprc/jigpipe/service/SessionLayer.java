@@ -1,5 +1,6 @@
 package com.github.ltprc.jigpipe.service;
 
+import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.concurrent.atomic.AtomicLong;
@@ -23,58 +24,18 @@ import com.github.ltprc.jigpipe.tool.BigpipeLogger;
  * </p>
  */
 public abstract class SessionLayer {
-    private NameService nameService;
-    private IClient client;
+
+    protected static Logger logger = BigpipeLogger.getLogger();
+
+    protected NameService nameService;
+    protected IClient client;
+
     private String id;
     private String username;
     private String password;
     private String pipeletName;
 
-    private static AtomicLong objectId = new AtomicLong(0);
-
-    protected static Logger logger = BigpipeLogger.getLogger();
-
-    public SessionLayer(String cluster) {
-        nameService = new NameService(cluster);
-        client = createClient();
-    }
-
-    public String getHostName() {
-        String hostname = "unknownhost";
-        try {
-            InetAddress addr = InetAddress.getLocalHost();
-            hostname = addr.getHostAddress();
-        } catch (UnknownHostException e) {
-            e.printStackTrace();
-        }
-        return hostname;
-    }
-
-    /**
-     * Mock default session id generation.
-     * @return
-     */
-    public String generateDefaultId() {
-        return "SESSIONID" + objectId.incrementAndGet();
-    }
-
-    public abstract IClient createClient();
-
-    public NameService getNameService() {
-        return nameService;
-    }
-
-    public void setNameService(NameService nameserver) {
-        this.nameService = nameserver;
-    }
-
-    public IClient getClient() {
-        return client;
-    }
-
-    public void setClient(IClient client) {
-        this.client = client;
-    }
+    private AtomicLong objectId = new AtomicLong(0);
 
     public String getId() {
         return id;
@@ -108,4 +69,34 @@ public abstract class SessionLayer {
         this.pipeletName = pipeletName;
     }
 
+    public SessionLayer(String cluster) {
+        nameService = new NameService(cluster);
+        client = createClient();
+    }
+
+    public abstract IClient createClient();
+
+    public String getHostName() {
+        String hostname = "unknownhost";
+        try {
+            InetAddress addr = InetAddress.getLocalHost();
+            hostname = addr.getHostAddress();
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+        }
+        return hostname;
+    }
+
+    public String generateDefaultId() {
+        return "SESSIONID" + objectId.incrementAndGet();
+    }
+
+    /**
+     * 关闭底层连接
+     * 
+     * @throws IOException
+     */
+    public void close() throws IOException {
+        client.close();
+    }
 }

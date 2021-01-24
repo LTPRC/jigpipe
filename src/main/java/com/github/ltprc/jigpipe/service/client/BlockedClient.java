@@ -6,8 +6,9 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.Socket;
 
-import com.github.ltprc.jigpipe.bean.Packet;
 import com.github.ltprc.jigpipe.bean.TopicAddress;
+import com.github.ltprc.jigpipe.service.Packet;
+import com.github.ltprc.jigpipe.service.command.Command;
 import com.google.gson.Gson;
 
 public class BlockedClient implements IClient {
@@ -17,18 +18,18 @@ public class BlockedClient implements IClient {
     public BlockedClient() {
     }
 
-    @Override
-    public TopicAddress getCurrentAddress() {
-        return currentAddress;
-    }
-    
     public Socket getSocket() {
         return socket;
     }
-    
+
     public Socket createSocket() {
         socket = new Socket();
         return socket;
+    }
+
+    @Override
+    public TopicAddress getCurrentAddress() {
+        return currentAddress;
     }
 
     @Override
@@ -37,6 +38,17 @@ public class BlockedClient implements IClient {
         if (socket == null || socket.isClosed())
             createSocket();
         socket.connect(currentAddress.getAddress());
+    }
+
+    /**
+     * TODO This is a mock method.
+     * 发送携带附加数据的报文
+     */
+    @Override
+    public void send(Command command) throws IOException {
+        Packet packet = new Packet();
+        packet.setCommand(command);
+        send(packet);
     }
 
     /**

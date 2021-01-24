@@ -1,4 +1,6 @@
-package com.github.ltprc.jigpipe.bean;
+package com.github.ltprc.jigpipe.service;
+
+import com.github.ltprc.jigpipe.service.command.Command;
 
 public class Packet {
     
@@ -6,11 +8,11 @@ public class Packet {
      * 报头
      */
     
-    private Command command;
+    protected Command command;
     /**
      * 附加数据列表
      */
-    private byte[] payload;
+    protected byte[] payload;
     
     public Command getCommand() {
         return command;

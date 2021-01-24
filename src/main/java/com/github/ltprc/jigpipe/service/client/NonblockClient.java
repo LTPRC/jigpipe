@@ -7,9 +7,9 @@ import java.nio.channels.SocketChannel;
 import java.util.LinkedList;
 import java.util.Queue;
 
-import com.github.ltprc.jigpipe.bean.Command;
-import com.github.ltprc.jigpipe.bean.Packet;
 import com.github.ltprc.jigpipe.bean.TopicAddress;
+import com.github.ltprc.jigpipe.service.Packet;
+import com.github.ltprc.jigpipe.service.command.Command;
 import com.google.gson.Gson;
 
 public class NonblockClient implements IClient {
@@ -63,10 +63,22 @@ public class NonblockClient implements IClient {
     }
 
     /**
+     * TODO This is a mock method.
+     * 发送携带附加数据的报文
+     */
+    @Override
+    public void send(Command command) throws IOException {
+        Packet packet = new Packet();
+        packet.setCommand(command);
+        send(packet);
+    }
+
+    /**
      * 发送携带附加数据的报文
      * 
      * @throws IOException
      */
+    @Override
     public void send(Packet packet) throws IOException {
         Gson gson = new Gson();
         ByteBuffer newSendbuffer = ByteBuffer.allocate(gson.toJson(packet, Packet.class).getBytes().length);
@@ -115,6 +127,7 @@ public class NonblockClient implements IClient {
      * @return 报文对象，包括报头和附加数据
      * @throws IOException
      */
+    @Override
     public Packet receive() throws IOException {
         if (readbufbody.remaining() > 0) {
             if (channel.read(readbufbody) < 0)
@@ -127,6 +140,7 @@ public class NonblockClient implements IClient {
         return packet;
     }
 
+    @Override
     public void close() throws IOException {
         if (channel != null) {
             try {

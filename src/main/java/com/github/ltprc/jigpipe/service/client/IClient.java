@@ -2,9 +2,10 @@ package com.github.ltprc.jigpipe.service.client;
 
 import java.io.IOException;
 
-import com.github.ltprc.jigpipe.bean.Command;
-import com.github.ltprc.jigpipe.bean.Packet;
 import com.github.ltprc.jigpipe.bean.TopicAddress;
+import com.github.ltprc.jigpipe.service.Packet;
+import com.github.ltprc.jigpipe.service.command.Command;
+import com.google.gson.Gson;
 
 /**
  * Client class, used for managing connection and transmission.
@@ -23,6 +24,13 @@ public interface IClient {
      * @return
      */
     public TopicAddress getCurrentAddress();
+
+    /**
+     * Send packet(command).
+     * @param cmd
+     * @throws IOException
+     */
+    public void send(Command command) throws IOException;
     
     /**
      * Send packet(command + payloads).
