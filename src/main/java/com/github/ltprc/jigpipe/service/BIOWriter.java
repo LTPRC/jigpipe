@@ -64,18 +64,6 @@ public class BIOWriter extends Writer {
     /**
      * 按c-api打包协议打包消息后，组装消息报文发送一条消息，等待接收到服务器ack后返回
      * 
-     * @param message 按c-api打包协议打包的文本消息
-     * @return 服务器返回的ack报文
-     * @throws IOException
-     * @throws UnexpectedProtocol
-     */
-    public Packet doSendPacked(String message) throws IOException, UnexpectedProtocol {
-        return doSendPacked(message.getBytes());
-    }
-
-    /**
-     * 按c-api打包协议打包消息后，组装消息报文发送一条消息，等待接收到服务器ack后返回
-     * 
      * @param binaryMessage 按c-api打包协议打包的二进制数据
      * @return 服务器返回的ack报文
      * @throws IOException
