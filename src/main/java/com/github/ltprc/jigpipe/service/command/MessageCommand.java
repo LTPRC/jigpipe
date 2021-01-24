@@ -18,6 +18,13 @@ public class MessageCommand extends Command {
 
     private int messageLength;
 
+    private long topicMessageId;
+
+    /**
+     * 暂时不用
+     */
+    private String message;
+
     public String getDestination() {
         return destination;
     }
@@ -64,5 +71,21 @@ public class MessageCommand extends Command {
 
     public void setMessageLength(int messageLength) {
         this.messageLength = messageLength;
+    }
+
+    public long getTopicMessageId() {
+        return topicMessageId;
+    }
+
+    public void setTopicMessageId(long topicMessageId) {
+        this.topicMessageId = topicMessageId;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 }

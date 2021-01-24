@@ -20,6 +20,9 @@ public class UnexpectedProtocol extends Exception {
     public UnexpectedProtocol(Packet from, Packet to) {
         this.from = from;
         this.to = to;
+        /**
+         * TODO Process exception content
+         */
     }
 
     public Packet getFrom() {

@@ -151,9 +151,17 @@ public abstract class Writer extends SessionLayer {
             throw new UnexpectedProtocol(messagePack, ackPack);
         }
         if (messagePack != null) {
-//            && !ackPack.command.getReceiptId().equals(messagePack.command.getReceiptId())) {
             AckCommand ackCommand = (AckCommand) ackPack.command;
-            throw new UnexpectedProtocol(messagePack, ackPack);
+            MessageCommand messageCommand = (MessageCommand) messagePack.command;
+            if (null == ackCommand.getReceiptId()) {
+                ackCommand.setReceiptId("");
+            }
+            if (null == messageCommand.getReceiptId()) {
+                ackCommand.setReceiptId("");
+            }
+            if (!ackCommand.getReceiptId().equals(messageCommand.getReceiptId())) {
+                throw new UnexpectedProtocol(messagePack, ackPack);
+            }
         }
         return ackPack;
     }

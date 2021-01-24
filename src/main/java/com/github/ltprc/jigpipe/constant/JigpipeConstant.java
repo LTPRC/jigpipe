@@ -25,4 +25,7 @@ public class JigpipeConstant {
     public static final int SUBSCRIBER_ROLE = 2;
     /** Message size limitation. */
     public static final int MAX_SEND_MESSAGE_LENGTH = 2097152;
+    public static final int MAX_RECV_BUFFER_LENGTH = 8388608;
+    public static final long OLDEST_OFFSET = -2;
+    public static final long LATEST_OFFSET = -2;
 }
