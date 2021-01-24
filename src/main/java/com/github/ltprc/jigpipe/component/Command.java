@@ -1,5 +1,5 @@
 package com.github.ltprc.jigpipe.component;
 
-public class BigpipeCommand {
+public class Command {
     //To be continued...
 }

@@ -13,23 +13,12 @@ import org.apache.zookeeper.Watcher.Event.EventType;
 import org.apache.zookeeper.Watcher.Event.KeeperState;
 import org.apache.zookeeper.data.Stat;
 
+import com.github.ltprc.jigpipe.constant.JigpipeConstant;
 import com.github.ltprc.jigpipe.exception.MetaException;
 import com.github.ltprc.jigpipe.tool.BigpipeLogger;
 
 public class ZooKeeperWatcher implements Watcher {
 
-    /**
-     * Bigpipe cluster name
-     */
-    private static final String CLUSTER_NAME = "bigpipe_test_cluster";
-    /**
-     * 连接地址
-     */
-    private static final String ZK_ADDRESS = "192.168.137.128:2181";
-    /**
-     * 会话时间
-     */
-    private static final Integer ZK_SESSION_TIMEOUT = 2000;
     /**
      * Bigpipe logger
      */
@@ -247,14 +236,14 @@ public class ZooKeeperWatcher implements Watcher {
 
     public static void main(String[] args) throws InterruptedException, KeeperException {
         logger.info("test log4j");
-        ZooKeeperWatcher mckz=new ZooKeeperWatcher(CLUSTER_NAME, ZK_ADDRESS, ZK_SESSION_TIMEOUT);
+        ZooKeeperWatcher mckz=new ZooKeeperWatcher(JigpipeConstant.CLUSTER_NAME, JigpipeConstant.ZK_ADDRESS, JigpipeConstant.ZK_SESSION_TIMEOUT);
         mckz.waitConnected();
         //创建节点
         mckz.createNode("/mckz","MCKZ");
-        System.out.println(mckz.get("/mckz"));
+        System.out.println(new String(mckz.get("/mckz")));
         //修改
         mckz.setNode("/mckz","wahahaha");
-        System.out.println(mckz.get("/mckz"));
+        System.out.println(new String(mckz.get("/mckz")));
         //删除
         mckz.deleteNode("/mckz");
         //关闭

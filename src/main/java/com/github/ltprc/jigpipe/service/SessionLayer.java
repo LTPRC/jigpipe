@@ -1,6 +1,5 @@
 package com.github.ltprc.jigpipe.service;
 
-import java.lang.management.ManagementFactory;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.concurrent.atomic.AtomicLong;
@@ -12,7 +11,7 @@ import com.github.ltprc.jigpipe.tool.BigpipeLogger;
 
 /**
  * <p>
- * 用于实现bigpipe协议的session功能，从而在服务端保存一些客户端的状态；
+ * 实现session功能，从而在服务端保存一些客户端的状态；
  * 每一个客户端连接session_id是要求唯一的，用于区分每一个客户端连接
  * </p>
  * <p>
@@ -22,9 +21,9 @@ import com.github.ltprc.jigpipe.tool.BigpipeLogger;
  * 此外，这一层封装了传输协议层和名称解析模块，规范了最基本的对应用提供的接口
  * </p>
  */
-public abstract class BigpipeSessionLayer {
+public abstract class SessionLayer {
     private NameService nameService;
-    private IBigpipeClient client;
+    private IClient client;
     private String id;
     private String username;
     private String password;
@@ -34,7 +33,7 @@ public abstract class BigpipeSessionLayer {
 
     protected static Logger logger = BigpipeLogger.getLogger();
 
-    public BigpipeSessionLayer(String cluster) {
+    public SessionLayer(String cluster) {
         nameService = new NameService(cluster);
         client = createClient();
     }
@@ -58,7 +57,7 @@ public abstract class BigpipeSessionLayer {
         return "SESSIONID" + objectId.incrementAndGet();
     }
 
-    public abstract IBigpipeClient createClient();
+    public abstract IClient createClient();
 
     public NameService getNameService() {
         return nameService;
@@ -68,11 +67,11 @@ public abstract class BigpipeSessionLayer {
         this.nameService = nameserver;
     }
 
-    public IBigpipeClient getClient() {
+    public IClient getClient() {
         return client;
     }
 
-    public void setClient(IBigpipeClient client) {
+    public void setClient(IClient client) {
         this.client = client;
     }
 
