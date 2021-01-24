@@ -1,6 +1,6 @@
 package com.github.ltprc.jigpipe.service.command;
 
-public class ConnCommand extends Command {
+public class ConnectCommand extends Command {
 
     static {
         commandType = CommandType.BMQ_CONNECT;

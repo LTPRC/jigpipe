@@ -1,4 +1,4 @@
-package com.github.ltprc.jigpipe.service;
+package com.github.ltprc.jigpipe.service.writer;
 
 import java.io.IOException;
 import java.util.List;
@@ -8,10 +8,13 @@ import com.github.ltprc.jigpipe.constant.JigpipeConstant;
 import com.github.ltprc.jigpipe.exception.MalformedPackageException;
 import com.github.ltprc.jigpipe.exception.NameResolveException;
 import com.github.ltprc.jigpipe.exception.UnexpectedProtocol;
+import com.github.ltprc.jigpipe.service.ByteBlockList;
+import com.github.ltprc.jigpipe.service.Packet;
+import com.github.ltprc.jigpipe.service.SessionLayer;
 import com.github.ltprc.jigpipe.service.command.AckCommand;
 import com.github.ltprc.jigpipe.service.command.Command;
 import com.github.ltprc.jigpipe.service.command.CommandType;
-import com.github.ltprc.jigpipe.service.command.ConnCommand;
+import com.github.ltprc.jigpipe.service.command.ConnectCommand;
 import com.github.ltprc.jigpipe.service.command.MessageCommand;
 
 import io.netty.util.internal.StringUtil;
@@ -48,7 +51,7 @@ public abstract class Writer extends SessionLayer {
      * @throws IOException
      */
     public Command sendConnect() throws IOException {
-        ConnCommand connCmd = new ConnCommand();
+        ConnectCommand connCmd = new ConnectCommand();
         connCmd.setRole(JigpipeConstant.PUBLISHER_ROLE);
         connCmd.setSessionId(getId());
         if (!StringUtil.isNullOrEmpty(getUsername())) {
@@ -57,23 +60,6 @@ public abstract class Writer extends SessionLayer {
         }
         client.send(connCmd);
         return connCmd;
-    }
-
-    /**
-     * 将单条二进制消息按照c-api打包协议格式打包 c-api打包协议格式： (Total size including itself) + (size 1)
-     * + (content 1) + ... + (size N) + (content N)
-     * 
-     * @param binary
-     *            输入的二进制流
-     * @return 打包的二进制流集合
-     */
-    public ByteBlockList capiStylePackMessage(byte[] binary) {
-        ByteBlockList block = new ByteBlockList();
-        byte[] binaryPack = new byte[binary.length + 8];
-        block.appendInt(binaryPack.length);
-        block.appendInt(binary.length);
-        block.appendByteArray(binary);
-        return block;
     }
 
     /**
@@ -88,22 +74,35 @@ public abstract class Writer extends SessionLayer {
         if (binary == null || binary.length == 0) {
             throw new MalformedPackageException("Empty content is not allowed.");
         }
-        ByteBlockList payload = new ByteBlockList();
-        payload.appendInt(8 + binary.length);
-        payload.appendInt(binary.length);
-        payload.appendByteArray(binary);
-        return sendBinary(payload, seq);
+        ByteBlockList byteBlockList = ByteBlockList.packRaw(binary);
+        return sendPackedBinary(byteBlockList, seq);
     }
 
     /**
-     * 按格式打包，消息报文发送二进制消息
+     * 无需额外打包，消息报文发送二进制消息
+     * 
+     * @param binary 二进制消息
+     * @param seq 在本次会话中消息对应的id
+     * @return 返回组装好的消息报文的报头
+     * @throws IOException
+     */
+    public Command sendPackedBinary(byte[] binary, long seq) throws IOException {
+        if (binary == null || binary.length == 0) {
+            throw new MalformedPackageException("Empty content is not allowed.");
+        }
+        ByteBlockList byteBlockList = new ByteBlockList(binary);
+        return sendPackedBinary(byteBlockList, seq);
+    }
+
+    /**
+     * 无需额外打包，消息报文发送二进制消息
      * 
      * @param payload 二进制消息
      * @param seq 在本次会话中消息对应的id
      * @return 返回组装好的消息报文的报头
      * @throws IOException
      */
-    public Command sendBinary(ByteBlockList payload, long seq) throws IOException {
+    public Command sendPackedBinary(ByteBlockList payload, long seq) throws IOException {
         List<byte[]> byteList = payload.getList();
         for (byte[] bytes : byteList) {
             if (bytes == null || bytes.length == 0) {
@@ -147,12 +146,12 @@ public abstract class Writer extends SessionLayer {
      */
     public Packet receiveAck(Packet messagePack) throws IOException, UnexpectedProtocol {
         Packet ackPack = client.receive();
-        if (ackPack.command.getCommandType() != CommandType.BMQ_ACK) {
+        if (ackPack.getCommand().getCommandType() != CommandType.BMQ_ACK) {
             throw new UnexpectedProtocol(messagePack, ackPack);
         }
         if (messagePack != null) {
-            AckCommand ackCommand = (AckCommand) ackPack.command;
-            MessageCommand messageCommand = (MessageCommand) messagePack.command;
+            AckCommand ackCommand = (AckCommand) ackPack.getCommand();
+            MessageCommand messageCommand = (MessageCommand) messagePack.getCommand();
             if (null == ackCommand.getReceiptId()) {
                 ackCommand.setReceiptId("");
             }

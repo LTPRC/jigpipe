@@ -10,6 +10,7 @@ public class AckCommand extends Command {
     private String destination;
     private int ackType;
     private long topicMessageId;
+    private long sessionMessageId;
 
     public String getReceiptId() {
         return receiptId;
@@ -41,5 +42,13 @@ public class AckCommand extends Command {
 
     public void setTopicMessageId(long topicMessageId) {
         this.topicMessageId = topicMessageId;
+    }
+
+    public long getSessionMessageId() {
+        return sessionMessageId;
+    }
+
+    public void setSessionMessageId(long sessionMessageId) {
+        this.sessionMessageId = sessionMessageId;
     } 
 }

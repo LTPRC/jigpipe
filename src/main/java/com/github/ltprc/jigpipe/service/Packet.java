@@ -8,11 +8,11 @@ public class Packet {
      * 报头
      */
     
-    protected Command command;
+    private Command command;
     /**
      * 附加数据列表
      */
-    protected byte[] payload;
+    private byte[] payload;
     
     public Command getCommand() {
         return command;

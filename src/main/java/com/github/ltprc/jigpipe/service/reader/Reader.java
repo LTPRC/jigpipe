@@ -1,4 +1,4 @@
-package com.github.ltprc.jigpipe.service;
+package com.github.ltprc.jigpipe.service.reader;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -9,10 +9,12 @@ import com.github.ltprc.jigpipe.constant.JigpipeConstant;
 import com.github.ltprc.jigpipe.exception.MalformedPackageException;
 import com.github.ltprc.jigpipe.exception.NameResolveException;
 import com.github.ltprc.jigpipe.exception.UnexpectedProtocol;
+import com.github.ltprc.jigpipe.service.Packet;
+import com.github.ltprc.jigpipe.service.SessionLayer;
 import com.github.ltprc.jigpipe.service.command.AckCommand;
 import com.github.ltprc.jigpipe.service.command.Command;
 import com.github.ltprc.jigpipe.service.command.CommandType;
-import com.github.ltprc.jigpipe.service.command.ConnCommand;
+import com.github.ltprc.jigpipe.service.command.ConnectCommand;
 import com.github.ltprc.jigpipe.service.command.MessageCommand;
 import com.github.ltprc.jigpipe.service.command.SubscribeCommand;
 
@@ -112,7 +114,7 @@ public abstract class Reader extends SessionLayer {
      * @throws IOException
      */
     public Command sendConnect() throws IOException {
-        ConnCommand connCmd = new ConnCommand();
+        ConnectCommand connCmd = new ConnectCommand();
         connCmd.setRole(JigpipeConstant.SUBSCRIBER_ROLE);
         connCmd.setSessionId(getId());
         if (!StringUtil.isNullOrEmpty(getUsername())) {
@@ -131,16 +133,16 @@ public abstract class Reader extends SessionLayer {
      * @throws UnexpectedProtocol
      */
     public StorePackage unpackCapiPayload(Packet packet) throws UnexpectedProtocol {
-        if (packet.command.getCommandType() != CommandType.BMQ_MESSAGE) {
+        if (packet.getCommand().getCommandType() != CommandType.BMQ_MESSAGE) {
             throw new UnexpectedProtocol(null, packet);
         }
         int offset = 0;
-        if (offset > packet.payload.length - 4) {
-            throw new MalformedPackageException("package size is wrong: " + "offset " + offset + " of total " + packet.payload.length);
+        if (offset > packet.getPayload().length - 4) {
+            throw new MalformedPackageException("package size is wrong: " + "offset " + offset + " of total " + packet.getPayload().length);
         }
-        MessageCommand messageCommand = (MessageCommand) packet.command;
-        byte[] payload = packet.payload;
-        int packageLength = packet.payload.length;
+        MessageCommand messageCommand = (MessageCommand) packet.getCommand();
+        byte[] payload = packet.getPayload();
+        int packageLength = packet.getPayload().length;
         offset += 4;
 
         StorePackage pack = new StorePackage();
