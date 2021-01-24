@@ -5,7 +5,7 @@ public class JigpipeConstant {
     /**
      * cluster name
      */
-    public static final String CLUSTER_NAME = "bigpipe_test_cluster";
+    public static final String CLUSTER_NAME = "test_cluster";
     /**
      * 连接地址
      */

@@ -44,9 +44,9 @@ public class BIOWriter extends Writer {
     }
 
     /**
-     * 阻塞式地完成一次bigpipe协议的连接协议交互，验证身份信息； 协议成功将将更新内部session_seq
+     * 阻塞式地完成一次连接协议交互，验证身份信息； 协议成功将将更新内部session_seq
      * 
-     * @return 返回服务器响应的bigpipe报文，其中包含本会话id上一次断开时在服务端保留的会话消息id
+     * @return 返回服务器响应的报文，其中包含本会话id上一次断开时在服务端保留的会话消息id
      * @throws IOException
      * @throws UnexpectedProtocol
      */

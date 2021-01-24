@@ -2,12 +2,12 @@ package com.github.ltprc.jigpipe.tool;
 
 import org.apache.log4j.Logger;
 
-public enum BigpipeLogger {
+public enum LoggerTool {
     LOGGER;
     private static Logger logger;
     public static Logger getLogger() {
         if (logger == null) {
-            logger = Logger.getLogger(BigpipeLogger.class);
+            logger = Logger.getLogger(LoggerTool.class);
         }
         return logger;
     }

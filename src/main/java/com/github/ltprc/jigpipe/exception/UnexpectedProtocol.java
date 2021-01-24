@@ -1,16 +1,11 @@
 package com.github.ltprc.jigpipe.exception;
 
-import org.apache.log4j.Logger;
-
 import com.github.ltprc.jigpipe.service.Packet;
-import com.github.ltprc.jigpipe.tool.BigpipeLogger;
 
 /**
  * 报文协议异常。
  */
 public class UnexpectedProtocol extends Exception {
-
-    protected static Logger logger = BigpipeLogger.getLogger();
 
     private static final long serialVersionUID = 7565359552051015822L;
 

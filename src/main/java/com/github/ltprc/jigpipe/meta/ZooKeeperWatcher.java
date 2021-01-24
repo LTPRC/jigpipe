@@ -15,20 +15,15 @@ import org.apache.zookeeper.data.Stat;
 
 import com.github.ltprc.jigpipe.constant.JigpipeConstant;
 import com.github.ltprc.jigpipe.exception.MetaException;
-import com.github.ltprc.jigpipe.tool.BigpipeLogger;
+import com.github.ltprc.jigpipe.tool.LoggerTool;
 
 public class ZooKeeperWatcher implements Watcher {
 
-    /**
-     * Bigpipe logger
-     */
-    private static final Logger logger = BigpipeLogger.getLogger();
+    protected static final Logger logger = LoggerTool.getLogger();
+
     private String clusterName;
     private String zkAddress;
     private Integer zkSessionTimeout;
-    /**
-     * ZK实例
-     */
     private ZooKeeper zooKeeper;
 
     public ZooKeeperWatcher(String clusterName, String zkAddress, Integer zkSessionTimeout) {

@@ -1,9 +1,5 @@
 package com.github.ltprc.jigpipe.meta;
 
-/**
- * Broker is the server of the Baidu Bigpipe message queue system.
- *
- */
 public class Broker {
 
     private String ip;

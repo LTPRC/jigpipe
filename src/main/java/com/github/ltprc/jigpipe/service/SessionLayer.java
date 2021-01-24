@@ -8,7 +8,7 @@ import java.util.concurrent.atomic.AtomicLong;
 import org.apache.log4j.Logger;
 
 import com.github.ltprc.jigpipe.meta.NameService;
-import com.github.ltprc.jigpipe.tool.BigpipeLogger;
+import com.github.ltprc.jigpipe.tool.LoggerTool;
 
 /**
  * <p>
@@ -24,7 +24,7 @@ import com.github.ltprc.jigpipe.tool.BigpipeLogger;
  */
 public abstract class SessionLayer {
 
-    protected static Logger logger = BigpipeLogger.getLogger();
+    protected static Logger logger = LoggerTool.getLogger();
 
     protected NameService nameService;
     protected IClient client;
