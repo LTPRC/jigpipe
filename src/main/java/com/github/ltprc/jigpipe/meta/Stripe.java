@@ -1,7 +1,7 @@
 package com.github.ltprc.jigpipe.meta;
 
 /**
- * Stripe POJO
+ * Stripe POJO.
  * @author tuoli
  *
  */

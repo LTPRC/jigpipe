@@ -1,7 +1,7 @@
 package com.github.ltprc.jigpipe.command;
 
 /**
- * Connected Command
+ * Connected Command.
  * @author tuoli
  *
  */

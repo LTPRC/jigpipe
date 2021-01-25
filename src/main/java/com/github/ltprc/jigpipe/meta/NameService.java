@@ -12,7 +12,7 @@ import com.github.ltprc.jigpipe.exception.StripeOffsetException;
 import com.google.gson.Gson;
 
 /**
- * Broker name resolver
+ * Broker name resolver.
  * @author tuoli
  *
  */

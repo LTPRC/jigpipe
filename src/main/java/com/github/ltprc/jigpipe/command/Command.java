@@ -1,7 +1,7 @@
 package com.github.ltprc.jigpipe.command;
 
 /**
- * Command Abstract Class
+ * Command Abstract Class.
  * @author tuoli
  *
  */

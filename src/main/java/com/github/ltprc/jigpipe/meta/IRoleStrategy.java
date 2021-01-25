@@ -1,7 +1,7 @@
 package com.github.ltprc.jigpipe.meta;
 
 /**
- * Role selection strategy interface
+ * Role selection strategy interface.
  * @author tuoli
  *
  */

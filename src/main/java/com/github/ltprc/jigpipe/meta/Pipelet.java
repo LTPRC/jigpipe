@@ -3,7 +3,7 @@ package com.github.ltprc.jigpipe.meta;
 import java.util.List;
 
 /**
- * Pipelet POJO
+ * Pipelet POJO.
  * @author tuoli
  *
  */

@@ -1,7 +1,7 @@
 package com.github.ltprc.jigpipe.constant;
 
 /**
- * Constants for SDK configurations
+ * Constants for SDK configurations.
  * @author tuoli
  *
  */

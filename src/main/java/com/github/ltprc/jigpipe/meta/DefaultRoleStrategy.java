@@ -5,7 +5,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import com.github.ltprc.jigpipe.constant.JigpipeConstant;
 
 /**
- * Default role selection strategy
+ * Default role selection strategy.
  * @author tuoli
  *
  */

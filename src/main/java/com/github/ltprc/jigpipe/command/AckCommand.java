@@ -1,7 +1,7 @@
 package com.github.ltprc.jigpipe.command;
 
 /**
- * ACK Command
+ * ACK Command.
  * @author tuoli
  *
  */

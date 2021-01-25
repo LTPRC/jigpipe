@@ -3,7 +3,7 @@ package com.github.ltprc.jigpipe.meta;
 import java.net.InetSocketAddress;
 
 /**
- * Combo of address and stripe name
+ * Combo of address and stripe name.
  * @author tuoli
  *
  */

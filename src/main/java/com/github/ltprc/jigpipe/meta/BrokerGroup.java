@@ -3,7 +3,7 @@ package com.github.ltprc.jigpipe.meta;
 import java.util.List;
 
 /**
- * Broker group POJO
+ * Broker group POJO.
  * @author tuoli
  *
  */

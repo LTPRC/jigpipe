@@ -4,7 +4,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * ZooKeeper connection administration
+ * ZooKeeper connection administration.
  * @author tuoli
  *
  */

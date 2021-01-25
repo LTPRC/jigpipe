@@ -1,7 +1,7 @@
 package com.github.ltprc.jigpipe.command;
 
 /**
- * Receipt Command
+ * Receipt Command.
  * @author tuoli
  *
  */

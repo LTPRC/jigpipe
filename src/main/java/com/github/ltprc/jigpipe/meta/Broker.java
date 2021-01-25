@@ -1,7 +1,7 @@
 package com.github.ltprc.jigpipe.meta;
 
 /**
- * Broker POJO
+ * Broker POJO.
  * @author tuoli
  *
  */
