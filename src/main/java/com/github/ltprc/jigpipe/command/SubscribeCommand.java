@@ -1,5 +1,10 @@
 package com.github.ltprc.jigpipe.command;
 
+/**
+ * Subscribe Command.
+ * @author tuoli
+ *
+ */
 public class SubscribeCommand extends Command {
     static {
         commandType = CommandType.BMQ_SUBSCRIBE;

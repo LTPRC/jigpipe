@@ -1,5 +1,10 @@
 package com.github.ltprc.jigpipe.meta;
 
+/**
+ * Broker POJO
+ * @author tuoli
+ *
+ */
 public class Broker {
 
     private String ip;

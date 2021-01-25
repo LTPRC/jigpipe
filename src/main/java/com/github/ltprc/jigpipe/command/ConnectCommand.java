@@ -1,5 +1,10 @@
 package com.github.ltprc.jigpipe.command;
 
+/**
+ * Connect Command
+ * @author tuoli
+ *
+ */
 public class ConnectCommand extends Command {
 
     static {

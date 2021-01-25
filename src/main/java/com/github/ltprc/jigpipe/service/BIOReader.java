@@ -13,15 +13,15 @@ public class BIOReader extends Reader {
     
     public BIOReader(String cluster) {
         super(cluster);
-        client = new BlockedClient();
+        client = new BIOClient();
     }
     
-    public BlockedClient createClient() {
-        return new BlockedClient();
+    public BIOClient createClient() {
+        return new BIOClient();
     }
 
-    public BlockedClient getClient() {
-        return (BlockedClient) client;
+    public BIOClient getClient() {
+        return (BIOClient) client;
     }
 
     /**

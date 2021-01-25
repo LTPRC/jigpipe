@@ -11,15 +11,19 @@ import com.github.ltprc.jigpipe.command.Command;
 import com.github.ltprc.jigpipe.meta.TopicAddress;
 import com.google.gson.Gson;
 
-public class NonblockClient implements IClient {
+public class NIOClient implements IClient {
+
     private SocketChannel channel;
     private TopicAddress currentAddress;
-
     private ByteBuffer sendbuffer;
     private ByteBuffer readbufbody;
     private Queue<ByteBuffer> sendqueue = new LinkedList<ByteBuffer>();
 
-    public NonblockClient() {
+    public TopicAddress getCurrentAddress() {
+        return currentAddress;
+    }
+
+    public NIOClient() {
     }
 
     public SocketChannel getChannel() {
@@ -27,9 +31,9 @@ public class NonblockClient implements IClient {
     }
 
     /**
-     * 用于获取尚未连接的SocketChannel以方便设置选项
+     * Create socket channel.
      * 
-     * @return 一个新的尚未连接的SocketChannel对象
+     * @return A brand-new channel instance without any active connection
      * @throws IOException
      */
     public SocketChannel createChannel() throws IOException {
@@ -39,19 +43,9 @@ public class NonblockClient implements IClient {
     }
 
     /**
-     * 获取当前连接到的stripe地址，在调用connect之后有效
+     * Create a TCP connection.
      * 
-     * @return 返回当前连接的地址，包括IP和stripe信息
-     */
-    public TopicAddress getCurrentAddress() {
-        return currentAddress;
-    }
-
-    /**
-     * 与指定stripe进行tcp连接
-     * 
-     * @param addr
-     *            通过NameService获取的stripe地址
+     * @param addr Address and stripe name resolved by nameService
      * @throws IOException
      */
     public void connect(TopicAddress addr) throws IOException {
@@ -61,10 +55,6 @@ public class NonblockClient implements IClient {
         channel.connect(currentAddress.getAddress());
     }
 
-    /**
-     * TODO This is a mock method.
-     * 发送携带附加数据的报文
-     */
     @Override
     public void send(Command command) throws IOException {
         Packet packet = new Packet();
@@ -72,11 +62,6 @@ public class NonblockClient implements IClient {
         send(packet);
     }
 
-    /**
-     * 发送携带附加数据的报文
-     * 
-     * @throws IOException
-     */
     @Override
     public void send(Packet packet) throws IOException {
         Gson gson = new Gson();
@@ -90,9 +75,9 @@ public class NonblockClient implements IClient {
     }
 
     /**
-     * 尝试发送当前缓冲中尚未发送的数据，并且返回本次发送之后的剩余数据量
+     * Flush byte message remained in buffer.
      * 
-     * @return 发送缓冲剩余未发送的字节数
+     * @return Byte number remained in buffer
      * @throws IOException
      */
     public int flush() throws IOException {
@@ -108,9 +93,9 @@ public class NonblockClient implements IClient {
     }
 
     /**
-     * 获取发送缓冲中还剩多少数据未写入socket
+     * Get byte number remained in buffer
      * 
-     * @return 剩余字节数
+     * @return
      */
     public int remain() {
         if (sendbuffer == null) {
@@ -119,13 +104,6 @@ public class NonblockClient implements IClient {
         return sendbuffer.remaining();
     }
 
-    /**
-     * TODO This is a mock method.
-     * 接收一条完整报文
-     * 
-     * @return 报文对象，包括报头和附加数据
-     * @throws IOException
-     */
     @Override
     public Packet receive() throws IOException {
         if (readbufbody.remaining() > 0) {

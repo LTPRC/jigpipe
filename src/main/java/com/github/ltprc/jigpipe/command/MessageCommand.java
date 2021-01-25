@@ -1,5 +1,10 @@
 package com.github.ltprc.jigpipe.command;
 
+/**
+ * Message Command
+ * @author tuoli
+ *
+ */
 public class MessageCommand extends Command {
 
     static {

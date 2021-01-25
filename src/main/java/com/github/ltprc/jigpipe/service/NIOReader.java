@@ -20,12 +20,12 @@ public class NIOReader extends Reader {
         super(cluster);
     }
 
-    public NonblockClient createClient() {
-        return new NonblockClient();
+    public NIOClient createClient() {
+        return new NIOClient();
     }
 
-    public NonblockClient getClient() {
-        return (NonblockClient) client;
+    public NIOClient getClient() {
+        return (NIOClient) client;
     }
 
     public void open(String pipeletName, long startpoint) throws IOException, NameResolveException {

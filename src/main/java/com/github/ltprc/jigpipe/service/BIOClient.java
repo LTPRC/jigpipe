@@ -10,11 +10,16 @@ import com.github.ltprc.jigpipe.command.Command;
 import com.github.ltprc.jigpipe.meta.TopicAddress;
 import com.google.gson.Gson;
 
-public class BlockedClient implements IClient {
+/**
+ * BIO client.
+ * @author tuoli
+ *
+ */
+public class BIOClient implements IClient {
     private Socket socket;
     private TopicAddress currentAddress;
 
-    public BlockedClient() {
+    public BIOClient() {
     }
 
     public Socket getSocket() {
@@ -39,10 +44,6 @@ public class BlockedClient implements IClient {
         socket.connect(currentAddress.getAddress());
     }
 
-    /**
-     * TODO This is a mock method.
-     * 发送携带附加数据的报文
-     */
     @Override
     public void send(Command command) throws IOException {
         Packet packet = new Packet();
@@ -50,23 +51,12 @@ public class BlockedClient implements IClient {
         send(packet);
     }
 
-    /**
-     * TODO This is a mock method.
-     * 发送携带附加数据的报文
-     */
     @Override
     public void send(Packet packet) throws IOException {
         Gson gson = new Gson();
         socket.getOutputStream().write(gson.toJson(gson, Packet.class).getBytes());
     }
 
-    /**
-     * TODO This is a mock method.
-     * 接收一条完整报文
-     * 
-     * @return 报文对象，包括报头和附加数据
-     * @throws IOException
-     */
     @Override
     public Packet receive() throws IOException {
         InputStream inputStream = socket.getInputStream();

@@ -1,7 +1,9 @@
 package com.github.ltprc.jigpipe.command;
 
 /**
- * TODO Mocked command bean
+ * Command Abstract Class
+ * @author tuoli
+ *
  */
 public abstract class Command {
 

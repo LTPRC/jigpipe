@@ -1,31 +1,37 @@
 package com.github.ltprc.jigpipe.constant;
 
+/**
+ * Constants for SDK configurations
+ * @author tuoli
+ *
+ */
 public class JigpipeConstant {
 
     /**
-     * cluster name
+     * Broker roles
+     * Master: 1
+     * Slave: 2
      */
-    public static final String CLUSTER_NAME = "test_cluster";
-    /**
-     * 连接地址
-     */
-    public static final String ZK_ADDRESS = "192.168.137.128:2181";
-
-
-    /**
-     * 会话时间
-     */
-    public static final Integer ZK_SESSION_TIMEOUT = 2000;
-
     public static final int BROKER_MASTER = 1;
-    
     public static final int BROKER_SLAVE = 2;
 
+    /**
+     * Client roles
+     * Publisher: 1
+     * Subscriber: 2
+     */
     public static final int PUBLISHER_ROLE = 1;
     public static final int SUBSCRIBER_ROLE = 2;
-    /** Message size limitation. */
+    /**
+     * Special offset definitions
+     * Oldest offset: -2
+     * Latest offset: -1
+     */
+    public static final long OLDEST_OFFSET = -2;
+    public static final long LATEST_OFFSET = -1;
+    /** 
+     * Message size limitation
+     */
     public static final int MAX_SEND_MESSAGE_LENGTH = 2097152;
     public static final int MAX_RECV_BUFFER_LENGTH = 8388608;
-    public static final long OLDEST_OFFSET = -2;
-    public static final long LATEST_OFFSET = -2;
 }

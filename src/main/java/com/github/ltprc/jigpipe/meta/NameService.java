@@ -11,8 +11,13 @@ import com.github.ltprc.jigpipe.exception.NameResolveException;
 import com.github.ltprc.jigpipe.exception.StripeOffsetException;
 import com.google.gson.Gson;
 
+/**
+ * Broker name resolver
+ * @author tuoli
+ *
+ */
 public class NameService {
-    private IRoleSelectStrategy roleStrategy = new DefaultRoleStrategy();
+    private IRoleStrategy roleStrategy = new DefaultRoleStrategy();
     private String clusterName;
 
     public NameService(String clusterName) {
@@ -23,36 +28,36 @@ public class NameService {
         return clusterName;
     }
 
-    public IRoleSelectStrategy getRoleStrategy() {
+    public IRoleStrategy getRoleStrategy() {
         return roleStrategy;
     }
 
-    public void setRoleStrategy(IRoleSelectStrategy roleStrategy) {
+    public void setRoleStrategy(IRoleStrategy roleStrategy) {
         this.roleStrategy = roleStrategy;
     }
 
     /**
-     * Search url for a specific postion.
+     * Resolve address of the specific message
      * @throws NameResolveException
      */
-    public TopicAddress lookup(String pipelet, long position, int role) throws NameResolveException {
+    public TopicAddress lookup(String pipelet, long offset, int role) throws NameResolveException {
         //Search stripe
         Stripe stripe;
         try {
-            stripe = findStripe(pipelet, position);
+            stripe = findStripe(pipelet, offset);
         } catch (KeeperException e) {
             if (e.code() == Code.NONODE || e.code() == Code.NOAUTH) {
                 InvalidParameter error = new InvalidParameter("no access to path " + e.getPath());
                 error.initCause(e);
                 throw error;
             }
-            NameResolveException ne = new NameResolveException(pipelet, position,
+            NameResolveException ne = new NameResolveException(pipelet, offset,
                     "get stripe " + e.getPath() + " via zookeeper failed");
             ne.initCause(e);
             throw ne;
         } catch (InterruptedException e) {
-            NameResolveException ne = new NameResolveException(pipelet, position,
-                    "get stripe interrupted: " + pipelet + " at " + position);
+            NameResolveException ne = new NameResolveException(pipelet, offset,
+                    "get stripe interrupted: " + pipelet + " at " + offset);
             ne.initCause(e);
             throw ne;
         }
@@ -68,12 +73,12 @@ public class NameService {
                 error.initCause(e);
                 throw error;
             }
-            NameResolveException ne = new NameResolveException(pipelet, position,
+            NameResolveException ne = new NameResolveException(pipelet, offset,
                     "get group " + stripe.getServingGroup() + " via zookeeper failed");
             ne.initCause(e);
             throw ne;
         } catch (InterruptedException e) {
-            NameResolveException ne = new NameResolveException(pipelet, position,
+            NameResolveException ne = new NameResolveException(pipelet, offset,
                     "get group interrupted" + stripe.getServingGroup());
             ne.initCause(e);
             throw ne;

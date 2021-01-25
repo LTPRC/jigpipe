@@ -16,12 +16,12 @@ public class NIOWriter extends Writer {
         super(cluster);
     }
 
-    public NonblockClient createClient() {
-        return new NonblockClient();
+    public NIOClient createClient() {
+        return new NIOClient();
     }
 
-    public NonblockClient getClient() {
-        return (NonblockClient) client;
+    public NIOClient getClient() {
+        return (NIOClient) client;
     }
 
     public long getSendingSeq() {

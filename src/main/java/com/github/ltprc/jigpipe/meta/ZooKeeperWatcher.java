@@ -13,10 +13,14 @@ import org.apache.zookeeper.Watcher.Event.EventType;
 import org.apache.zookeeper.Watcher.Event.KeeperState;
 import org.apache.zookeeper.data.Stat;
 
-import com.github.ltprc.jigpipe.constant.JigpipeConstant;
 import com.github.ltprc.jigpipe.exception.MetaException;
 import com.github.ltprc.jigpipe.tool.LoggerTool;
 
+/**
+ * ZooKeeper watcher instance focus on specific cluster(ZooKeeper address).
+ * @author tuoli
+ *
+ */
 public class ZooKeeperWatcher implements Watcher {
 
     protected static final Logger logger = LoggerTool.getLogger();
@@ -231,8 +235,7 @@ public class ZooKeeperWatcher implements Watcher {
     }
 
     public static void main(String[] args) throws InterruptedException, KeeperException {
-        logger.info("test log4j");
-        ZooKeeperWatcher mckz=new ZooKeeperWatcher(JigpipeConstant.CLUSTER_NAME, JigpipeConstant.ZK_ADDRESS, JigpipeConstant.ZK_SESSION_TIMEOUT);
+        ZooKeeperWatcher mckz=new ZooKeeperWatcher("test_cluster", "192.168.137.128:2181", 2000);
         mckz.waitConnected();
         //创建节点
         mckz.createNode("/mckz","MCKZ");

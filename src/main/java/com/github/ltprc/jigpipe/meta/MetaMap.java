@@ -1,20 +1,20 @@
 package com.github.ltprc.jigpipe.meta;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * 用来存放不同集群ZK连接的单例散列表
+ * ZooKeeper connection administration
  * @author tuoli
  *
  */
 public enum MetaMap {
     INSTANCE;
-    
+
     /**
-     * ZooKeeper散列表，用于存储属于不同集群的ZK实例
+     * Map which stores active ZooKeeper connections
      */
-    private final static Map<String, ZooKeeperWatcher> instanceMap = new HashMap<>();
+    private final static Map<String, ZooKeeperWatcher> instanceMap = new ConcurrentHashMap<>();
     
     public Map<String, ZooKeeperWatcher> getInstance() {
         return instanceMap;

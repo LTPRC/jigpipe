@@ -1,5 +1,10 @@
 package com.github.ltprc.jigpipe.command;
 
+/**
+ * Receipt Command
+ * @author tuoli
+ *
+ */
 public class ReceiptCommand extends Command {
 
     static {

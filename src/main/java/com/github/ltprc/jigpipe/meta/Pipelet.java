@@ -2,6 +2,11 @@ package com.github.ltprc.jigpipe.meta;
 
 import java.util.List;
 
+/**
+ * Pipelet POJO
+ * @author tuoli
+ *
+ */
 public class Pipelet {
     private int id;
     private String name;

@@ -98,7 +98,7 @@ public class BIOWriterTest {
     public static void main(String[] args) {
         ZooKeeperWatcher zkWatcher;
         try {
-            zkWatcher = new ZooKeeperWatcher(JigpipeConstant.CLUSTER_NAME, JigpipeConstant.ZK_ADDRESS, JigpipeConstant.ZK_SESSION_TIMEOUT);
+            zkWatcher = new ZooKeeperWatcher("test_cluster", "192.168.137.128:2181", 2000);
             zkWatcher.waitConnected();
         } catch (Exception e) {
             e.printStackTrace();

@@ -1,5 +1,10 @@
 package com.github.ltprc.jigpipe.meta;
 
+/**
+ * Stripe POJO
+ * @author tuoli
+ *
+ */
 public class Stripe {
     private int id;
     

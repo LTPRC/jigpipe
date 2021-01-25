@@ -3,14 +3,13 @@ package com.github.ltprc.jigpipe.command;
 import com.google.protobuf.Descriptors.EnumDescriptor;
 import com.google.protobuf.Descriptors.EnumValueDescriptor;
 
+/**
+ * Command type enumerator implemented from Google protobuf.
+ * @author tuoli
+ *
+ */
 public enum CommandType implements com.google.protobuf.ProtocolMessageEnum {
-    /**
-     * <code>BMQ_UNDEFINED = 0;</code>
-     *
-     * <pre>
-     * cmds
-     * </pre>
-     */
+
      BMQ_UNDEFINED,
      /**
      * <code>BMQ_SEND = 1;</code>

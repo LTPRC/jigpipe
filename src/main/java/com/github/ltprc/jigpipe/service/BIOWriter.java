@@ -27,12 +27,12 @@ public class BIOWriter extends Writer {
         super(cluster);
     }
 
-    public BlockedClient createClient() {
-        return new BlockedClient();
+    public BIOClient createClient() {
+        return new BIOClient();
     }
 
-    public BlockedClient getClient() {
-        return (BlockedClient) client;
+    public BIOClient getClient() {
+        return (BIOClient) client;
     }
 
     public long getSessionSeq() {

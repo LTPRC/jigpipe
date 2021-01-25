@@ -2,6 +2,11 @@ package com.github.ltprc.jigpipe.meta;
 
 import java.util.List;
 
+/**
+ * Broker group POJO
+ * @author tuoli
+ *
+ */
 public class BrokerGroup {
     private String name;
 

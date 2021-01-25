@@ -1,5 +1,10 @@
 package com.github.ltprc.jigpipe.command;
 
+/**
+ * ACK Command
+ * @author tuoli
+ *
+ */
 public class AckCommand extends Command {
 
     static {
