@@ -36,7 +36,7 @@ public class BIOWriterTest {
 
     public void mainloop() {
         try {
-            writer = new BIOWriter(JigpipeConstant.CLUSTER_NAME);
+            writer = new BIOWriter("test_cluster");
             writer.setUsername("USERNAME");
             writer.setPassword("********");
             writer.setPipeletName("topic01-1");

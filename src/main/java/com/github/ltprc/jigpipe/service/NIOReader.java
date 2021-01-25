@@ -8,6 +8,11 @@ import com.github.ltprc.jigpipe.exception.NameResolveException;
 import com.github.ltprc.jigpipe.exception.ProtocolDisorderError;
 import com.github.ltprc.jigpipe.exception.UnexpectedProtocol;
 
+/**
+ * NIO reader.
+ * @author tuoli
+ *
+ */
 public class NIOReader extends Reader {
     public static final int START = 1;
     public static final int CONNECTED = 2;
@@ -33,6 +38,7 @@ public class NIOReader extends Reader {
         protocolState = START;
     }
 
+    @Override
     public Command sendConnect() throws IOException {
         if (protocolState != START) {
             throw new ProtocolDisorderError("try send subscribe in state " + protocolState);
@@ -42,6 +48,7 @@ public class NIOReader extends Reader {
         return command;
     }
 
+    @Override
     public Command sendSubscribe() throws IOException {
         if (protocolState != CONNECTED) {
             throw new ProtocolDisorderError("try send subscribe in state " + protocolState);
@@ -52,9 +59,12 @@ public class NIOReader extends Reader {
     }
 
     /**
-     * 尝试从底层网络读取数据，如果能读取到一条完整的协议，将按协议逻辑处理，如果是消息数据，将返回给调用者，
-     * 并更新当前订阅点
-     * @return 有消息数据时返回消息数据，否则返回null
+     * Receive command from the server.
+     * If connected command is received, automatically updating status and subscribe.
+     * If receipt command is received, automatically updating status.
+     * If message command is received, automatically updating status and start point, send response.
+     * 
+     * @return valid command or null
      * @throws IOException
      * @throws UnexpectedProtocol
      */
@@ -75,7 +85,7 @@ public class NIOReader extends Reader {
             MessageCommand messageCommand = (MessageCommand) packet.getCommand();
             lastPacket = new Packet(responseMessage(messageCommand));
             this.setStartpoint(messageCommand.getTopicMessageId() + 1);
-            return unpackCapiPayload(packet);
+            return unpack(packet);
         default:
             throw new UnexpectedProtocol(lastPacket, packet);
         }

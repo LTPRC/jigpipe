@@ -17,9 +17,9 @@ import com.github.ltprc.jigpipe.meta.TopicAddress;
 import io.netty.util.internal.StringUtil;
 
 /**
- * <p>
- * 包含对会话基本信息的设置，以及对分离的（异步）发送协议的方法支持
- * </p>
+ * Writer abstract class.
+ * @author tuoli
+ *
  */
 public abstract class Writer extends SessionLayer {
 
@@ -28,7 +28,7 @@ public abstract class Writer extends SessionLayer {
     }
 
     /**
-     * 查找预先设定的pipelet队尾所在的提供发布的服务器地址并且连接
+     * Search address for connection.
      * 
      * @throws IOException
      * @throws NameResolveException
@@ -42,9 +42,9 @@ public abstract class Writer extends SessionLayer {
     }
 
     /**
-     * 根据当前client属性向服务器发送连接命令
+     * Send connect command to the server.
      * 
-     * @return 当前包装的连接命令
+     * @return connect command
      * @throws IOException
      */
     public Command sendConnect() throws IOException {
@@ -60,11 +60,11 @@ public abstract class Writer extends SessionLayer {
     }
 
     /**
-     * 按格式打包，消息报文发送二进制消息
+     * Send unpacked binary data.
      * 
-     * @param binary 二进制消息
-     * @param seq 在本次会话中消息对应的id
-     * @return 返回组装好的消息报文的报头
+     * @param binary data
+     * @param seq message id
+     * @return message command
      * @throws IOException
      */
     public Command sendBinary(byte[] binary, long seq) throws IOException {
@@ -76,11 +76,11 @@ public abstract class Writer extends SessionLayer {
     }
 
     /**
-     * 无需额外打包，消息报文发送二进制消息
+     * Send packed binary data.
      * 
-     * @param binary 二进制消息
-     * @param seq 在本次会话中消息对应的id
-     * @return 返回组装好的消息报文的报头
+     * @param binary data
+     * @param seq message id
+     * @return message command
      * @throws IOException
      */
     public Command sendPackedBinary(byte[] binary, long seq) throws IOException {
@@ -92,11 +92,11 @@ public abstract class Writer extends SessionLayer {
     }
 
     /**
-     * 无需额外打包，消息报文发送二进制消息
+     * Send binary data pack.
      * 
-     * @param payload 二进制消息
-     * @param seq 在本次会话中消息对应的id
-     * @return 返回组装好的消息报文的报头
+     * @param payload data pack
+     * @param seq message id
+     * @return message command
      * @throws IOException
      */
     public Command sendPackedBinary(ByteBlockList payload, long seq) throws IOException {
@@ -123,9 +123,9 @@ public abstract class Writer extends SessionLayer {
     }
 
     /**
-     * 阻塞至接收到完整的服务器响应报文为止，如果不是ack报文则抛出异常
+     * Receive ACK from server in blocked way.
      * 
-     * @return 服务器响应的ack报文
+     * @return ack command
      * @throws IOException
      * @throws UnexpectedProtocol
      */
@@ -134,10 +134,10 @@ public abstract class Writer extends SessionLayer {
     }
 
     /**
-     * 阻塞至接收到完整的服务器响应报文为止，如果不是ack报文则抛出异常
+     * Receive ACK from server in blocked way.
      * 
-     * @param messagePack 之前发送出去的消息报文，可以为null
-     * @return 服务器响应的ack报文
+     * @param messagePack
+     * @return ack command
      * @throws IOException
      * @throws UnexpectedProtocol
      */

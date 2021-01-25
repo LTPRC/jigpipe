@@ -9,6 +9,9 @@ import com.github.ltprc.jigpipe.command.SubscribeCommand;
 import com.github.ltprc.jigpipe.exception.StripeEndException;
 import com.github.ltprc.jigpipe.exception.UnexpectedProtocol;
 
+/**
+ * BIO reader.
+ */
 public class BIOReader extends Reader {
     
     public BIOReader(String cluster) {
@@ -25,20 +28,24 @@ public class BIOReader extends Reader {
     }
 
     /**
-     * 阻塞式地完成一次连接协议交互，验证身份信息
+     * Send connect command and receive connected command.
+     * 
+     * @return Received packet
      * @throws IOException
      * @throws UnexpectedProtocol
      */
-    public void doConnect() throws IOException, UnexpectedProtocol {
+    public Packet doConnect() throws IOException, UnexpectedProtocol {
         Command connCmd = sendConnect();
-        Packet connectedPacket = client.receive();
-        if (connectedPacket.getCommand().getCommandType() != CommandType.BMQ_CONNECTED) {
-            throw new UnexpectedProtocol(new Packet(connCmd), connectedPacket);
+        Packet connected = client.receive();
+        if (connected.getCommand().getCommandType() != CommandType.BMQ_CONNECTED) {
+            throw new UnexpectedProtocol(new Packet(connCmd), connected);
         }
+        return connected;
     }
 
     /**
-     * 阻塞式地完成一次发起订阅协议交互，此交互完成时，服务端将开始推送数据
+     * Send subscribe command and receive receiptCommand.
+     * 
      * @throws IOException
      * @throws UnexpectedProtocol
      */
@@ -48,16 +55,16 @@ public class BIOReader extends Reader {
         if (subCmd.getCommandType() != CommandType.BMQ_RECEIPT) {
             throw new UnexpectedProtocol(new Packet(subCmd), receptPacket);
         }
-        SubscribeCommand receptCommand = (SubscribeCommand) receptPacket.getCommand();
-        if (!subCmd.getReceiptId().equals(receptCommand.getReceiptId())) {
+        SubscribeCommand receiptCommand = (SubscribeCommand) receptPacket.getCommand();
+        if (!subCmd.getReceiptId().equals(receiptCommand.getReceiptId())) {
             throw new UnexpectedProtocol(new Packet(subCmd), receptPacket);
         }
     }
 
     /**
-     * 接收一条消息报文，并且向服务器回ack；成功的话，会更新当前订阅点
+     * Receive packet with message from server and send ack command.
      * 
-     * @return
+     * @return received packet
      * @throws IOException
      * @throws UnexpectedProtocol
      * @throws StripeEndException 
@@ -77,14 +84,14 @@ public class BIOReader extends Reader {
     }
 
     /**
-     * 接收一条消息报文，并且向服务器回ack；成功的话，会更新当前订阅点
+     * Receive packet with message from server and send ack command.
      * 
-     * @return
+     * @return unpacked received packet
      * @throws IOException
      * @throws UnexpectedProtocol
      * @throws StripeEndException 
      */
     public StorePackage doReceive() throws IOException, UnexpectedProtocol, StripeEndException {
-        return unpackCapiPayload(doReceivePacked());
+        return unpack(doReceivePacked());
     }
 }

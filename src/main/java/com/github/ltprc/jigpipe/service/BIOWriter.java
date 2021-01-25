@@ -8,15 +8,8 @@ import com.github.ltprc.jigpipe.command.ConnectedCommand;
 import com.github.ltprc.jigpipe.exception.UnexpectedProtocol;
 
 /**
- * <p>
- * 使用本类实现的方法将是同步的发送方式且用的阻塞IO，想实现异步的发送方式可以使用底层的分离发送方法，但仍然是阻塞的IO。
- * </p>
- * <p>
- * 本类的方法内部会管理session_msg_id，适用于对每一次发送与上一次前因后果逻辑联系很强的情况
- * </p>
- * <p>
- * 使用底层的方法实现异步发送的方式能大幅提高吞吐量但是需要自己管理session_msg_id
- * </p>
+ * BIO writer manages session sequence by itself.
+ * Session sequence can be maintained by the SDK user to improve the efficiency.
  */
 public class BIOWriter extends Writer {
 
@@ -44,9 +37,9 @@ public class BIOWriter extends Writer {
     }
 
     /**
-     * 阻塞式地完成一次连接协议交互，验证身份信息； 协议成功将将更新内部session_seq
+     * Send connect command and receive connected command.
      * 
-     * @return 返回服务器响应的报文，其中包含本会话id上一次断开时在服务端保留的会话消息id
+     * @return Received packet
      * @throws IOException
      * @throws UnexpectedProtocol
      */
@@ -62,10 +55,10 @@ public class BIOWriter extends Writer {
     }
 
     /**
-     * 按c-api打包协议打包消息后，组装消息报文发送一条消息，等待接收到服务器ack后返回
+     * Send message command with packed data and receive ack command.
      * 
-     * @param binaryMessage 按c-api打包协议打包的二进制数据
-     * @return 服务器返回的ack报文
+     * @param binaryMessage packed data
+     * @return Received packet
      * @throws IOException
      * @throws UnexpectedProtocol
      */
@@ -77,10 +70,10 @@ public class BIOWriter extends Writer {
     }
 
     /**
-     * 组装消息报文发送一条消息，等待接收到服务器ack后返回
+     * Send message command with unpacked data and receive ack command.
      * 
-     * @param binaryMessage 待发送的二进制数据
-     * @return 服务器返回的ack报文
+     * @param binaryMessage unpacked data
+     * @return Received packet
      * @throws IOException
      * @throws UnexpectedProtocol
      */

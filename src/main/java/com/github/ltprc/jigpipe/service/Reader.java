@@ -17,6 +17,11 @@ import com.github.ltprc.jigpipe.meta.TopicAddress;
 
 import io.netty.util.internal.StringUtil;
 
+/**
+ * Reader abstract class.
+ * @author tuoli
+ *
+ */
 public abstract class Reader extends SessionLayer {
 
     private static int byteArrayToInt(byte[] buffer, int offset) {
@@ -42,9 +47,9 @@ public abstract class Reader extends SessionLayer {
     }
 
     /**
-     * 根据pipelet名和偏移量获取服务器ip地址并且连接
+     * Search address for connection.
      * 
-     * @param pipeletName pipelet名，由pipe名 + 下划线 + pipelet号（从1开始）组成
+     * @param pipeletName {pipeletName}_{pipeletNum}
      * @throws IOException
      * @throws NameResolveException
      */
@@ -53,10 +58,10 @@ public abstract class Reader extends SessionLayer {
     }
 
     /**
-     * 根据pipelet名和设定好的偏移量获取服务器ip地址并且连接
+     * Search address for connection.
      * 
-     * @param pipeletName pipelet名，由pipe名 + 下划线 + pipelet号（从1开始）组成
-     * @param startpoint pipelet偏移量（订阅点）
+     * @param pipeletName {pipeletName}_{pipeletNum}
+     * @param startpoint
      * @throws IOException
      * @throws NameResolveException
      */
@@ -82,7 +87,7 @@ public abstract class Reader extends SessionLayer {
     }
 
     /**
-     * 查找pipelet队首所在的服务器地址并且连接
+     * Search address for connection from the beginning of a pipelet.
      * 
      * @param pipeletName pipelet名，由pipe名 + 下划线 + pipelet号（从1开始）组成
      * @throws IOException
@@ -93,7 +98,7 @@ public abstract class Reader extends SessionLayer {
     }
 
     /**
-     * 查找pipelet队尾所在的服务器地址并且连接
+     * Search address for connection from the ending of a pipelet.
      * 
      * @param pipeletName
      *            pipelet名，由pipe名 + 下划线 + pipelet号（从1开始）组成
@@ -105,9 +110,9 @@ public abstract class Reader extends SessionLayer {
     }
 
     /**
-     * 根据当前client属性向服务器发送连接命令
+     * Send connect command.
      * 
-     * @return 当前包装的连接命令
+     * @return
      * @throws IOException
      */
     public Command sendConnect() throws IOException {
@@ -123,13 +128,13 @@ public abstract class Reader extends SessionLayer {
     }
 
     /**
-     * 根据打包格式拆包
+     * Unpack received packet.
      * 
      * @param packet
      * @return
      * @throws UnexpectedProtocol
      */
-    public StorePackage unpackCapiPayload(Packet packet) throws UnexpectedProtocol {
+    public StorePackage unpack(Packet packet) throws UnexpectedProtocol {
         if (packet.getCommand().getCommandType() != CommandType.BMQ_MESSAGE) {
             throw new UnexpectedProtocol(null, packet);
         }
@@ -163,9 +168,9 @@ public abstract class Reader extends SessionLayer {
     }
 
     /**
-     * 根据当前client属性向服务器发送发起订阅的命令
+     * Send subscribe command.
      * 
-     * @return 当前包装的发起订阅命令
+     * @return
      * @throws IOException
      */
     public Command sendSubscribe() throws IOException {
@@ -178,10 +183,10 @@ public abstract class Reader extends SessionLayer {
     }
 
     /**
-     * 向服务器回复对应消息的ack
+     * Send ack command
      * 
-     * @param messageComand 收到的消息报头
-     * @return 当前回应的ack命令
+     * @param messageComand
+     * @return
      * @throws IOException
      */
     public Command responseMessage(MessageCommand messageComand) throws IOException {

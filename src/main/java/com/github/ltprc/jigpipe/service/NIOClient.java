@@ -11,6 +11,11 @@ import com.github.ltprc.jigpipe.command.Command;
 import com.github.ltprc.jigpipe.meta.TopicAddress;
 import com.google.gson.Gson;
 
+/**
+ * NIO client.
+ * @author tuoli
+ *
+ */
 public class NIOClient implements IClient {
 
     private SocketChannel channel;

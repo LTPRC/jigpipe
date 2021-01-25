@@ -7,6 +7,11 @@ import com.github.ltprc.jigpipe.command.Command;
 import com.github.ltprc.jigpipe.command.ConnectedCommand;
 import com.github.ltprc.jigpipe.exception.UnexpectedProtocol;
 
+/**
+ * NIO writer.
+ * @author tuoli
+ *
+ */
 public class NIOWriter extends Writer {
 
     private long sendingSeq;
@@ -41,10 +46,11 @@ public class NIOWriter extends Writer {
     }
 
     /**
-     * 按c-api打包协议打包消息后，组装消息报文发送一条消息，<strong style="color: red">不</strong>等待服务器ack，将自增sendingSeq
+     * Send packed message.
+     * <strong style="color: red">Before</strong> ack command arriving from the server, update sendingSeq automatically
      * 
-     * @param binaryMessage 按c-api打包协议打包的二进制数据
-     * @return 返回组装好的message报文对象
+     * @param binaryMessage
+     * @return
      * @throws IOException
      */
     public Command sendPackedMessage(byte[] binaryMessage) throws IOException {
@@ -52,10 +58,11 @@ public class NIOWriter extends Writer {
     }
 
     /**
-     * 组装消息报文发送一条消息，<strong style="color: red">不</strong>等待服务器ack，与老式c-api不兼容，老式c-api和java-api将无法订阅，将自增sendingSeq
+     * Send unpacked message.
+     * <strong style="color: red">Before</strong> ack command arriving from the server, update sendingSeq automatically
      * 
-     * @param binaryMessage 待发送的二进制数据
-     * @return 返回组装好的message报文对象
+     * @param binaryMessage
+     * @return
      * @throws IOException
      */
     public Command sendMessage(byte[] binaryMessage) throws IOException {
@@ -63,10 +70,11 @@ public class NIOWriter extends Writer {
     }
 
     /**
-     * 尝试从底层网络读取数据，如果能读取到一条完整的协议，将按协议逻辑处理； 收到connected报文后将更新内部sendingseq和ackedseq
-     * 收到ack报文后将更新内部的ackedseq
+     * Receive command from the server.
+     * If connected command is received, automatically updating sendingseq and ackedseq.
+     * If ack command is received, automatically updating ackedseq.
      * 
-     * @return 接收到完整的报文时返回报文，否则返回null
+     * @return valid command or null
      * @throws IOException
      * @throws UnexpectedProtocol
      */
