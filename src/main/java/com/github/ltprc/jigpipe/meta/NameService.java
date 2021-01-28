@@ -5,10 +5,8 @@ import java.net.InetSocketAddress;
 import org.apache.zookeeper.KeeperException;
 import org.apache.zookeeper.KeeperException.Code;
 
+import com.github.ltprc.jigpipe.constant.ErrorConstant;
 import com.github.ltprc.jigpipe.constant.JigpipeConstant;
-import com.github.ltprc.jigpipe.exception.InvalidParameter;
-import com.github.ltprc.jigpipe.exception.NameResolveException;
-import com.github.ltprc.jigpipe.exception.StripeOffsetException;
 import com.google.gson.Gson;
 
 /**
@@ -38,28 +36,19 @@ public class NameService {
 
     /**
      * Resolve address of the specific message
-     * @throws NameResolveException
      */
-    public TopicAddress lookup(String pipelet, long offset, int role) throws NameResolveException {
+    public TopicAddress lookup(String pipelet, long offset, int role) {
         //Search stripe
         Stripe stripe;
         try {
             stripe = findStripe(pipelet, offset);
         } catch (KeeperException e) {
             if (e.code() == Code.NONODE || e.code() == Code.NOAUTH) {
-                InvalidParameter error = new InvalidParameter("no access to path " + e.getPath());
-                error.initCause(e);
-                throw error;
+                throw new RuntimeException(ErrorConstant.ERR_INVALID_PARAMETER, e);
             }
-            NameResolveException ne = new NameResolveException(pipelet, offset,
-                    "get stripe " + e.getPath() + " via zookeeper failed");
-            ne.initCause(e);
-            throw ne;
+            throw new RuntimeException(ErrorConstant.ERR_NO_STRIPE, e);
         } catch (InterruptedException e) {
-            NameResolveException ne = new NameResolveException(pipelet, offset,
-                    "get stripe interrupted: " + pipelet + " at " + offset);
-            ne.initCause(e);
-            throw ne;
+            throw new RuntimeException(ErrorConstant.ERR_NO_STRIPE, e);
         }
         
         //Search broker group
@@ -73,15 +62,9 @@ public class NameService {
                 error.initCause(e);
                 throw error;
             }
-            NameResolveException ne = new NameResolveException(pipelet, offset,
-                    "get group " + stripe.getServingGroup() + " via zookeeper failed");
-            ne.initCause(e);
-            throw ne;
+            throw new RuntimeException(ErrorConstant.ERR_NO_BROKER_GROUP, e);
         } catch (InterruptedException e) {
-            NameResolveException ne = new NameResolveException(pipelet, offset,
-                    "get group interrupted" + stripe.getServingGroup());
-            ne.initCause(e);
-            throw ne;
+            throw new RuntimeException(ErrorConstant.ERR_NO_BROKER_GROUP, e);
         }
 
         TopicAddress addr = new TopicAddress();
@@ -96,27 +79,18 @@ public class NameService {
                 "role " + role + "not found in group " + stripe.getServingGroup() + ", meta information is abnormal");
     }
 
-    /**
-     * 
-     * @throws NameResolveException
-     */
-    public TopicAddress lookup(String pipelet, long position) throws NameResolveException {
+    public TopicAddress lookup(String pipelet, long position) {
         return lookup(pipelet, position, roleStrategy.getCurrentRole());
     }
 
-    /**
-     * 
-     * @throws NameResolveException
-     */
-    public TopicAddress lookupPub(String pipelet) throws NameResolveException {
+    public TopicAddress lookupPub(String pipelet) {
         return lookup(pipelet, Long.MAX_VALUE, JigpipeConstant.BROKER_MASTER);
     }
 
     /**
      * Searching the position of a message on its specific pipelet.
      */
-    private Stripe findStripe(String pipeletName, long position)
-            throws NameResolveException, KeeperException, InterruptedException {
+    private Stripe findStripe(String pipeletName, long position) throws KeeperException, InterruptedException {
         String pipeletPath = "/" + clusterName + "/" + pipeletName;
         String pipeletinfo = MetaMap.INSTANCE.getInstance().get(clusterName).getMeta(pipeletPath);
 
@@ -142,7 +116,7 @@ public class NameService {
         if (position == 0) {
             return oldestStripe;
         }
-        throw new StripeOffsetException(pipeletName, position, oldestStripe.getBeginPos());
+        throw new RuntimeException(ErrorConstant.ERR_NO_OFFSET);
     }
 
     /**

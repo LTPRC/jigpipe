@@ -13,7 +13,7 @@ import org.apache.zookeeper.Watcher.Event.EventType;
 import org.apache.zookeeper.Watcher.Event.KeeperState;
 import org.apache.zookeeper.data.Stat;
 
-import com.github.ltprc.jigpipe.exception.MetaException;
+import com.github.ltprc.jigpipe.constant.ErrorConstant;
 import com.github.ltprc.jigpipe.tool.LoggerTool;
 
 /**
@@ -43,7 +43,7 @@ public class ZooKeeperWatcher implements Watcher {
     public void openConnection(){
         try {
             if (hasInstance(clusterName)) {
-                throw new MetaException("EX01");
+                throw new RuntimeException(ErrorConstant.ERR_ZK_CONNECTION);
             } else {
                 zooKeeper = new ZooKeeper(zkAddress, zkSessionTimeout, this);
                 MetaMap.INSTANCE.getInstance().put(clusterName, this);

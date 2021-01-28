@@ -4,9 +4,7 @@ import java.io.IOException;
 
 import com.github.ltprc.jigpipe.command.Command;
 import com.github.ltprc.jigpipe.command.MessageCommand;
-import com.github.ltprc.jigpipe.exception.NameResolveException;
-import com.github.ltprc.jigpipe.exception.ProtocolDisorderError;
-import com.github.ltprc.jigpipe.exception.UnexpectedProtocol;
+import com.github.ltprc.jigpipe.constant.ErrorConstant;
 
 /**
  * NIO reader.
@@ -33,7 +31,7 @@ public class NIOReader extends Reader {
         return (NIOClient) client;
     }
 
-    public void open(String pipeletName, long startpoint) throws IOException, NameResolveException {
+    public void open(String pipeletName, long startpoint) throws IOException {
         super.open(pipeletName, startpoint);
         protocolState = START;
     }
@@ -41,7 +39,7 @@ public class NIOReader extends Reader {
     @Override
     public Command sendConnect() throws IOException {
         if (protocolState != START) {
-            throw new ProtocolDisorderError("try send subscribe in state " + protocolState);
+            throw new RuntimeException(ErrorConstant.ERR_WRONG_PROTOCOL_STATUS);
         }
         Command command = super.sendConnect();
         lastPacket = new Packet(command);
@@ -51,7 +49,7 @@ public class NIOReader extends Reader {
     @Override
     public Command sendSubscribe() throws IOException {
         if (protocolState != CONNECTED) {
-            throw new ProtocolDisorderError("try send subscribe in state " + protocolState);
+            throw new RuntimeException(ErrorConstant.ERR_WRONG_PROTOCOL_STATUS);
         }
         Command command = super.sendSubscribe();
         lastPacket = new Packet(command);

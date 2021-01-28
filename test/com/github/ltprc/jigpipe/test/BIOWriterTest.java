@@ -4,9 +4,6 @@ import java.io.IOException;
 import java.util.Date;
 
 import com.github.ltprc.jigpipe.command.AckCommand;
-import com.github.ltprc.jigpipe.constant.JigpipeConstant;
-import com.github.ltprc.jigpipe.exception.NameResolveException;
-import com.github.ltprc.jigpipe.exception.UnexpectedProtocol;
 import com.github.ltprc.jigpipe.meta.ZooKeeperWatcher;
 import com.github.ltprc.jigpipe.service.BIOWriter;
 import com.github.ltprc.jigpipe.service.Packet;
@@ -80,11 +77,7 @@ public class BIOWriterTest {
                     }
                 }
             }
-        } catch (IOException e) {
-            System.err.println("exception happend: " + e.getMessage() + " try reconnect");
-        } catch (UnexpectedProtocol e) {
-            System.err.println("exception happend: " + e.getMessage() + " try reconnect");
-        } catch (NameResolveException e) {
+        } catch (Exception e) {
             System.err.println("exception happend: " + e.getMessage() + " try reconnect");
         } finally {
             try {

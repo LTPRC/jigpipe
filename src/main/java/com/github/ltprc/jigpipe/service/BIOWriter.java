@@ -5,7 +5,6 @@ import java.io.IOException;
 import com.github.ltprc.jigpipe.command.Command;
 import com.github.ltprc.jigpipe.command.CommandType;
 import com.github.ltprc.jigpipe.command.ConnectedCommand;
-import com.github.ltprc.jigpipe.exception.UnexpectedProtocol;
 
 /**
  * BIO writer manages session sequence by itself.

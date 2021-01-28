@@ -8,10 +8,8 @@ import com.github.ltprc.jigpipe.command.Command;
 import com.github.ltprc.jigpipe.command.CommandType;
 import com.github.ltprc.jigpipe.command.ConnectCommand;
 import com.github.ltprc.jigpipe.command.MessageCommand;
+import com.github.ltprc.jigpipe.constant.ErrorConstant;
 import com.github.ltprc.jigpipe.constant.JigpipeConstant;
-import com.github.ltprc.jigpipe.exception.MalformedPackageException;
-import com.github.ltprc.jigpipe.exception.NameResolveException;
-import com.github.ltprc.jigpipe.exception.UnexpectedProtocol;
 import com.github.ltprc.jigpipe.meta.TopicAddress;
 
 import io.netty.util.internal.StringUtil;
@@ -31,9 +29,8 @@ public abstract class Writer extends SessionLayer {
      * Search address for connection.
      * 
      * @throws IOException
-     * @throws NameResolveException
      */
-    public void open() throws IOException, NameResolveException {
+    public void open() throws IOException {
         if (getId() == null) {
             setId(generateDefaultId());
         }
@@ -69,7 +66,7 @@ public abstract class Writer extends SessionLayer {
      */
     public Command sendBinary(byte[] binary, long seq) throws IOException {
         if (binary == null || binary.length == 0) {
-            throw new MalformedPackageException("Empty content is not allowed.");
+            throw new RuntimeException(ErrorConstant.ERR_WRONG_SIZE_MSG);
         }
         ByteBlockList byteBlockList = ByteBlockList.packRaw(binary);
         return sendPackedBinary(byteBlockList, seq);
@@ -85,7 +82,7 @@ public abstract class Writer extends SessionLayer {
      */
     public Command sendPackedBinary(byte[] binary, long seq) throws IOException {
         if (binary == null || binary.length == 0) {
-            throw new MalformedPackageException("Empty content is not allowed.");
+            throw new RuntimeException(ErrorConstant.ERR_WRONG_SIZE_MSG);
         }
         ByteBlockList byteBlockList = new ByteBlockList(binary);
         return sendPackedBinary(byteBlockList, seq);
@@ -103,12 +100,12 @@ public abstract class Writer extends SessionLayer {
         List<byte[]> byteList = payload.getList();
         for (byte[] bytes : byteList) {
             if (bytes == null || bytes.length == 0) {
-                throw new MalformedPackageException("Empty content is not allowed.");
+                throw new RuntimeException(ErrorConstant.ERR_WRONG_SIZE_MSG);
             }
         }
         /** Check the size of payload. */
         if (payload.getBytesLength() >= JigpipeConstant.MAX_SEND_MESSAGE_LENGTH) {
-            throw new MalformedPackageException("Size limitation " + JigpipeConstant.MAX_SEND_MESSAGE_LENGTH + " is exceeded.");
+            throw new RuntimeException(ErrorConstant.ERR_OVERSIZE_MSG);
         }
         MessageCommand msgCmd = new MessageCommand();
         msgCmd.setDestination(client.getCurrentAddress().getStripe().getName());

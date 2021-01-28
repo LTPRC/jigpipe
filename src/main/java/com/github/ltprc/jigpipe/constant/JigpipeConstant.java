@@ -32,6 +32,6 @@ public class JigpipeConstant {
     /** 
      * Message size limitation
      */
-    public static final int MAX_SEND_MESSAGE_LENGTH = 2097152;
-    public static final int MAX_RECV_BUFFER_LENGTH = 8388608;
+    public static final int MAX_SEND_MESSAGE_LENGTH = 104857600;
+    public static final int MAX_RECV_BUFFER_LENGTH = 1073741824;
 }

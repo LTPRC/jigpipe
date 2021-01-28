@@ -1,9 +1,9 @@
-package com.github.ltprc.jigpipe.exception;
-
-import com.github.ltprc.jigpipe.service.Packet;
+package com.github.ltprc.jigpipe.service;
 
 /**
- * 报文协议异常。
+ * Protocol is not as expected.
+ * @author tuoli
+ *
  */
 public class UnexpectedProtocol extends Exception {
 

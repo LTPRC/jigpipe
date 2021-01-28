@@ -6,8 +6,7 @@ import com.github.ltprc.jigpipe.command.Command;
 import com.github.ltprc.jigpipe.command.CommandType;
 import com.github.ltprc.jigpipe.command.MessageCommand;
 import com.github.ltprc.jigpipe.command.SubscribeCommand;
-import com.github.ltprc.jigpipe.exception.StripeEndException;
-import com.github.ltprc.jigpipe.exception.UnexpectedProtocol;
+import com.github.ltprc.jigpipe.constant.ErrorConstant;
 
 /**
  * BIO reader.
@@ -67,11 +66,10 @@ public class BIOReader extends Reader {
      * @return received packet
      * @throws IOException
      * @throws UnexpectedProtocol
-     * @throws StripeEndException 
      */
-    public Packet doReceivePacked() throws IOException, UnexpectedProtocol, StripeEndException {
+    public Packet doReceivePacked() throws IOException, UnexpectedProtocol {
         if (client.getCurrentAddress().getStripe().getEndPos() < getStartpoint()) {
-            throw new StripeEndException(client.getCurrentAddress().getStripe(), getStartpoint());
+            throw new RuntimeException(ErrorConstant.ERR_CHANGE_STRIPE);
         }
         Packet response = client.receive();
         if (response.getCommand().getCommandType() != CommandType.BMQ_MESSAGE) {
@@ -89,9 +87,8 @@ public class BIOReader extends Reader {
      * @return unpacked received packet
      * @throws IOException
      * @throws UnexpectedProtocol
-     * @throws StripeEndException 
      */
-    public StorePackage doReceive() throws IOException, UnexpectedProtocol, StripeEndException {
+    public StorePackage doReceive() throws IOException, UnexpectedProtocol {
         return unpack(doReceivePacked());
     }
 }

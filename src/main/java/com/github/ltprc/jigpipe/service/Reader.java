@@ -9,10 +9,8 @@ import com.github.ltprc.jigpipe.command.CommandType;
 import com.github.ltprc.jigpipe.command.ConnectCommand;
 import com.github.ltprc.jigpipe.command.MessageCommand;
 import com.github.ltprc.jigpipe.command.SubscribeCommand;
+import com.github.ltprc.jigpipe.constant.ErrorConstant;
 import com.github.ltprc.jigpipe.constant.JigpipeConstant;
-import com.github.ltprc.jigpipe.exception.MalformedPackageException;
-import com.github.ltprc.jigpipe.exception.NameResolveException;
-import com.github.ltprc.jigpipe.exception.UnexpectedProtocol;
 import com.github.ltprc.jigpipe.meta.TopicAddress;
 
 import io.netty.util.internal.StringUtil;
@@ -51,9 +49,8 @@ public abstract class Reader extends SessionLayer {
      * 
      * @param pipeletName {pipeletName}_{pipeletNum}
      * @throws IOException
-     * @throws NameResolveException
      */
-    public void open(String pipeletName) throws IOException, NameResolveException {
+    public void open(String pipeletName) throws IOException {
         open(pipeletName, getStartpoint());
     }
 
@@ -63,9 +60,8 @@ public abstract class Reader extends SessionLayer {
      * @param pipeletName {pipeletName}_{pipeletNum}
      * @param startpoint
      * @throws IOException
-     * @throws NameResolveException
      */
-    public void open(String pipeletName, long startpoint) throws IOException, NameResolveException {
+    public void open(String pipeletName, long startpoint) throws IOException {
         setPipeletName(pipeletName);
         if (getId() == null) {
             setId(generateDefaultId());
@@ -91,9 +87,8 @@ public abstract class Reader extends SessionLayer {
      * 
      * @param pipeletName pipelet名，由pipe名 + 下划线 + pipelet号（从1开始）组成
      * @throws IOException
-     * @throws NameResolveException
      */
-    public void openAtHead(String pipeletName) throws IOException, NameResolveException {
+    public void openAtHead(String pipeletName) throws IOException {
         open(pipeletName, JigpipeConstant.OLDEST_OFFSET);
     }
 
@@ -103,9 +98,8 @@ public abstract class Reader extends SessionLayer {
      * @param pipeletName
      *            pipelet名，由pipe名 + 下划线 + pipelet号（从1开始）组成
      * @throws IOException
-     * @throws NameResolveException
      */
-    public void openAtTail(String pipeletName) throws IOException, NameResolveException {
+    public void openAtTail(String pipeletName) throws IOException {
         open(pipeletName, JigpipeConstant.LATEST_OFFSET);
     }
 
@@ -140,7 +134,7 @@ public abstract class Reader extends SessionLayer {
         }
         int offset = 0;
         if (offset > packet.getPayload().length - 4) {
-            throw new MalformedPackageException("package size is wrong: " + "offset " + offset + " of total " + packet.getPayload().length);
+            throw new RuntimeException(ErrorConstant.ERR_WRONG_SIZE_MSG);
         }
         MessageCommand messageCommand = (MessageCommand) packet.getCommand();
         byte[] payload = packet.getPayload();
@@ -151,12 +145,12 @@ public abstract class Reader extends SessionLayer {
         pack.setStoreIndex(messageCommand.getTopicMessageId());
         while (offset < packageLength) {
             if (offset > packageLength - 4) {
-                throw new MalformedPackageException("package offset is wrong: " + "offset " + offset + " of total " + packageLength);
+                throw new RuntimeException(ErrorConstant.ERR_WRONG_SIZE_MSG);
             }
             int msgLen = byteArrayToInt(payload, offset);
             offset += 4;
             if (msgLen < 1 || msgLen > packageLength - offset) {
-                throw new MalformedPackageException("message length " + msgLen + "/" + offset + " of " + pack.getMessages().size() + " in package is wrong");
+                throw new RuntimeException(ErrorConstant.ERR_WRONG_SIZE_MSG);
             }
             byte[] tmp = new byte[msgLen];
             System.arraycopy(payload, offset, tmp, 0, msgLen);
